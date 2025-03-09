@@ -1,0 +1,92 @@
+body {
+    background-color: #EFEFEF;
+}
+
+#nav-icon {
+    background-color: #363636;
+    position: fixed;
+    left: 40%;
+    top: 4%;
+    width: 20%;
+    padding-top: 14px;
+    border-radius: 12px;
+    box-shadow: 4px 3px 10px #00000069;
+    padding-bottom: 14px;
+    display: flex;
+    justify-content: space-between; /* Distributes space between images */
+    align-items: center;
+}
+
+#NavberprofilePicture {
+    margin-left: 10%;
+    margin-right: 10%;
+    float: left;
+    width: 25px;
+}
+
+#addPostInNavBer {
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 25px;
+}
+#notificationInNavbar{
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 25px;
+}
+#posts{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.post{
+    box-shadow: 2px 3px 16px rgba(0, 0, 0, 0.137);
+    display: block;
+    border-radius: 7px;
+    width: 50%;
+    background-color: white;
+    padding: 20px;
+}
+.spacingTohalf{
+    margin-top: 15%;
+}
+.userInfo{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.userInfo img{
+    width: 30px;
+}
+.userInfo span{
+    font-family: 'Inria Sans', sans-serif;
+    font-size: 14;
+    font-weight: bold;
+}
+.caption{
+    margin: 20px;
+    font-family: 'Inria Sans', sans-serif;
+    font-size: 24;
+}
+.postImage{
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.postImage img{
+    width: 100%;
+    display: block;
+}
+.inatections{
+    width: 15%;
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.inatections span{
+    display: flex;
+    font-family: 'Inria Sans', sans-serif;
+    font-weight: bolder;
+    gap: 5px;
+    align-items: center;
+}
