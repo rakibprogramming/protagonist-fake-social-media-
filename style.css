@@ -90,3 +90,27 @@ body {
     gap: 5px;
     align-items: center;
 }
+#selfProfileInfo{
+    width: 100%;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+}
+#selfProfileInfo .personalPicture{
+    display: block;
+    align-items: center;
+    
+}
+ .personalprofilePicture{
+    width: 200px;
+    
+}
+#selfProfileInfo #selfProfileName{
+    font-family: "Inconsolata", monospace;
+    font-weight:  900;
+    margin-top: 10px;
+    font-size: 40px;
+}
+.editIcon{
+    width: 20px;
+}
