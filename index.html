@@ -3,69 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
-    <title>Protagonist</title>
+    <title>Protagonits</title>
 </head>
 
 <body>
-    <nav id="nav-icon">
-        <img src="./icons/fakeprofile.png" id="NavberprofilePicture" alt="">
-        <img src="./icons/add.png" id="addPostInNavBer" alt="">
-        <img src="./icons/notification.png" id="notificationInNavbar" alt="">
-    </nav>
-
-    <div style="display: none;">
-    <div id="addingPostOverlay"></div>
-    <div id="addingPost">
-        <textarea placeholder="Type something...." name="caption" id="addCaption"></textarea>
-        <label for="adingImage"><img src="./icons/addImage.png" alt=""></label>
-        <input id="adingImage" type="file" style="display: none;">
-        <button id="publishButton">Publish</button>
-    </div>
-</div>
-
-
-
-
-    <div id="posts" style="position: relative;top: 20%;">
-        <div class="post">
-            <div class="userInfo"><img src="./icons/fakeprofile.png"  alt=""> <span>Rakib Ahmed</span></div>
-            <div class="caption">Hey this is the caption</div>
-            <!-- <div class="postImage"><img src="./icons/example.png" alt=""></div> -->
-            <div class="inatections"><span><img src="./icons/love.png" alt=""><span>100k</span></span><img src="./icons/chat.png" alt=""></div>
+    <div id="parent">
+        <div id="nav"></div>
+        <div id="content">
+            <div id="headerText">Home</div>
+            <div id="addingPostArea">
+                <div id="addingPostElements">
+                    <div id="profilePcitrue"><img src="./icons/fakeprofile.png" alt=""></div>
+                    <div id="writing">
+                        <div id="textArea"><textarea placeholder="What's on you mind?" name="postText"
+                                id="postText"></textarea></div>
+                        <div id="postButtonArea">
+                            <button>Post</button>
+                            <div id="selcetImageButtonPareant"><img src="./icons/selectImage.png" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="post">
-            <div class="userInfo"><img src="./icons/fakeprofile.png"  alt=""> <span>Rakib Ahmed</span></div>
-            <div class="caption">Hey this is the caption</div>
-            <!-- <div class="postImage"><img src="./icons/example.png" alt=""></div> -->
-            <div class="inatections"><span><img src="./icons/love.png" alt=""><span>100k</span></span><img src="./icons/chat.png" alt=""></div>
-        </div><div class="post">
-            <div class="userInfo"><img src="./icons/fakeprofile.png"  alt=""> <span>Rakib Ahmed</span></div>
-            <div class="caption">Hey this is the caption</div>
-            <!-- <div class="postImage"><img src="./icons/example.png" alt=""></div> -->
-            <div class="inatections"><span><img src="./icons/love.png" alt=""><span>100k</span></span><img src="./icons/chat.png" alt=""></div>
-        </div><div class="post">
-            <div class="userInfo"><img src="./icons/fakeprofile.png"  alt=""> <span>Rakib Ahmed</span></div>
-            <div class="caption">Hey this is the caption</div>
-            <!-- <div class="postImage"><img src="./icons/example.png" alt=""></div> -->
-            <div class="inatections"><span><img src="./icons/love.png" alt=""><span>100k</span></span><img src="./icons/chat.png" alt=""></div>
-        </div><div class="post">
-            <div class="userInfo"><img src="./icons/fakeprofile.png"  alt=""> <span>Rakib Ahmed</span></div>
-            <div class="caption">Hey this is the caption</div>
-            <!-- <div class="postImage"><img src="./icons/example.png" alt=""></div> -->
-            <div class="inatections"><span><img src="./icons/love.png" alt=""><span>100k</span></span><img src="./icons/chat.png" alt=""></div>
-        </div><div class="post">
-            <div class="userInfo"><img src="./icons/fakeprofile.png"  alt=""> <span>Rakib Ahmed</span></div>
-            <div class="caption">Hey this is the caption</div>
-            <!-- <div class="postImage"><img src="./icons/example.png" alt=""></div> -->
-            <div class="inatections"><span><img src="./icons/love.png" alt=""><span>100k</span></span><img src="./icons/chat.png" alt=""></div>
-        </div>
-        
     </div>
-
-
 </body>
 
 </html>
