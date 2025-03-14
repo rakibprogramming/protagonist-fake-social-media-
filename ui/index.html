@@ -43,7 +43,9 @@
                         <div id="textArea"><textarea placeholder="What's on you mind?" name="postText"
                                 id="postText"></textarea></div>
                         <div id="postButtonArea">
-                            <button>Post</button>
+                            <button id="postThecontentButton" onclick="sendData()">Post</button>
+                            <div id="loadingbarforPost"><img id="postLoadingImage" src="/static/loading.png" alt="">
+                            </div>
                             <div id="selcetImageButtonPareant"><label for="postImage"><img id="previewImage"
                                         src="/static/selectImage.png" alt=""></label></div>
                             <input type="file" id="postImage" name="postImage" style="display: none;">
@@ -140,6 +142,7 @@
                 reader.readAsDataURL(file);
             }
         });
+
     </script>
 </body>
 

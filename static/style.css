@@ -376,3 +376,12 @@ body{
     margin-bottom: 10%;
     rotate: 90deg;
 }
+#loadingbarforPost{
+    display: none;
+    margin-right: 15px;
+
+}
+#postLoadingImage{
+    width: 30px;
+    height: 30px;
+}
