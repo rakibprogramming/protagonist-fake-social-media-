@@ -9,7 +9,7 @@ body{
     display: flex;
 }
 #nav{
-    width: 320px;
+    width: 500px;
     height: 70%;
     display: flex;
     margin-left: 24px;
@@ -92,6 +92,7 @@ body{
 #profilePcitrue img{
     width: 40px;
     margin: 15px;
+    border-radius: 50%;
 }
 #writing{
     width: 100%;
@@ -170,6 +171,7 @@ body{
 }
 .creatorInfo img{
     width: 56px;
+    border-radius: 50%;
 }
 .postCreatorNameinPost{
     font-family: "Be Vietnam Pro", sans-serif;
@@ -261,4 +263,69 @@ body{
 }
 .commentsItarections input::placeholder{
     color: #637587;
+}
+
+
+/* notification */
+
+.notification{
+    width: 40%;
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.notificantionMakerUserInfo{
+    display: flex;
+    align-items: center;
+}
+.notificantionMakerUserInfo img{
+    width: 56px;
+    border-radius: 50%;
+}
+.notificationMakerTextInfo{
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+}
+.notificationMakerName{
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+.notificationMakingTime{
+    font-family: "Be Vietnam Pro", sans-serif;
+    color: #637587;
+    font-size: 14px;
+}
+.notificationInfoAndContentSaparator{
+    width: 1px;
+    height: 70%;
+    background-color: rgb(0, 0, 0);
+    margin-left: 14px;
+}
+.notificationContent{
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: 14px;
+}
+
+
+/* Profile page css */
+#porfileInfoArea{
+    margin-right: 24px;
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+#porfileInfoArea img{
+    width: 130px;
+    border-radius: 50%;
+}
+#porfileInfoArea span{
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 12px;
 }
