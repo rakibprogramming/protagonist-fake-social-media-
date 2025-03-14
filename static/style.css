@@ -9,13 +9,35 @@ body{
     display: flex;
 }
 #nav{
+    width: 300px;
+    height: 70%;
+    display: flex;
+    margin-left: 24px;
+    background-color: white;
+    margin-top: 20px;
+    z-index: 100;
+    position: fixed;
+    left: 0px;
+
+}
+.navSpace{
     width: 500px;
     height: 70%;
     display: flex;
     margin-left: 24px;
+    background-color: white;
     margin-top: 20px;
+    z-index: 100;
 }
 
+#loadingScreen{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    position: fixed;
+    z-index: 20;
+    left: 0px;
+}
 
 /* css about nav bar */
 #nav_Elements{
@@ -30,6 +52,8 @@ body{
     padding-top: 8px;
     padding-bottom: 8px;
     margin-bottom: 8px;
+    transition: background-color 200ms ease;
+    border-radius: 12px;
 }
 .navELements:hover{
     background-color: #f0f2f554;
@@ -61,6 +85,8 @@ body{
     margin-right: 24px;
     width: 100%;
     margin-top: 20px;
+    opacity: 100%;
+    transition: opacity 100ms ease;
 }
 #headerText{
     font-family: "Be Vietnam Pro", sans-serif;
@@ -71,7 +97,6 @@ body{
 }
 #addingPostArea{
     margin-right: 24px;
-    height: 151px;
     width: 100%;
 }
 #addingPostElements{
@@ -96,7 +121,7 @@ body{
 }
 #writing{
     width: 100%;
-    height: 127px;
+
 }
 #textArea{
     width: 100%;
@@ -104,8 +129,8 @@ body{
     background-color: rgb(255, 140, 0);
 }
 #postButtonArea{
+    transition: height 1s ease;
     width: 100%;
-    height: 48px;
 }
 #textArea textarea{
     width: 100%;
@@ -128,6 +153,13 @@ body{
     cursor: pointer;
     width: 20px;
     margin-right: 14px;
+}
+#selcetImageButtonPareant label{
+    cursor: pointer;
+}
+#selcetImageButtonPareant label img{
+    width: 20px;
+    cursor: pointer;
 }
 #postButtonArea{
     display: flex;
@@ -328,4 +360,19 @@ body{
     font-size: 24px;
     font-weight: 600;
     margin-left: 12px;
+}
+
+/* Loading screen */
+
+#loadingScreenScreen{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#loadingScreenScreen img{
+    width: 40px;
+    margin-bottom: 10%;
+    rotate: 90deg;
 }

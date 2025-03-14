@@ -14,20 +14,27 @@
 </head>
 
 <body>
+    <div id="loadingScrseen"></div>
     <div id="parent">
+        <div class="navSpace"></div>
         <div id="nav">
             <div id="nav_Elements">
                 <div class="navELements currentNavLocation"><img src="/static/navIconHome.png" alt=""><span>Home</span>
                 </div>
-                <div class="navELements"><img src="/static/activity.png" alt=""><span>Activity</span></div>
-                <div class="navELements"><img src="/static/profile.png" alt=""><span>Profile</span></div>
+                <div class="navELements" onclick="gotoPage('/activity')"><img src="/static/activity.png"
+                        alt=""><span>Activity</span></div>
+                <div class="navELements" onclick="gotoPage('/profile')"><img src="/static/profile.png"
+                        alt=""><span>Profile</span></div>
 
 
             </div>
         </div>
 
-
+        <div id="loadingScreenHtml" style="display: none;">
+            <div id="loadingScreenScreen"><img id="loadingScreenLoadingIcon" src="/static/loading.png" alt=""></div>
+        </div>
         <div id="content">
+
             <div id="headerText">Home</div>
             <div id="addingPostArea">
                 <div id="addingPostElements">
@@ -37,7 +44,9 @@
                                 id="postText"></textarea></div>
                         <div id="postButtonArea">
                             <button>Post</button>
-                            <div id="selcetImageButtonPareant"><img src="/static/selectImage.png" alt=""></div>
+                            <div id="selcetImageButtonPareant"><label for="postImage"><img id="previewImage"
+                                        src="/static/selectImage.png" alt=""></label></div>
+                            <input type="file" id="postImage" name="postImage" style="display: none;">
                         </div>
                     </div>
                 </div>
@@ -52,7 +61,9 @@
                     </div>
                 </div>
                 <div class="caption">
-                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
+                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished
+                        reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm
+                        GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
                 </div>
                 <div class="imageFrame"><img src="/static/example.png" alt=""></div>
                 <div class="postItarection">
@@ -72,7 +83,32 @@
                     </div>
                 </div>
                 <div class="caption">
-                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
+                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished
+                        reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm
+                        GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
+                </div>
+                <!-- <div class="imageFrame"><img src="/static/example.png" alt=""></div> -->
+                <div class="postItarection">
+                    <div class="postInarectionItem"><img src="/static/comments.png" alt=""><span>24</span></div>
+                    <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
+                </div>
+                <div class="commentsItarections">
+                    <input type="text" placeholder="Add a comment...">
+                </div>
+            </div>
+
+            <div class="posts">
+                <div class="creatorInfo">
+                    <img src="/static/fakeprofile.png" alt="">
+                    <div class="creatorTextInfo">
+                        <span class="postCreatorNameinPost">Samantha Hill</span><br>
+                        <span class="creationTimeofThepost">3 hours ago</span>
+                    </div>
+                </div>
+                <div class="caption">
+                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished
+                        reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm
+                        GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
                 </div>
                 <!-- <div class="imageFrame"><img src="/static/example.png" alt=""></div> -->
                 <div class="postItarection">
@@ -87,6 +123,24 @@
 
         </div>
     </div>
+    <script src="/static/main.js"></script>
+    <script>
+        document.getElementById("postImage").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("previewImage").src = e.target.result;
+                    document.getElementById("selcetImageButtonPareant").style.width = "100px"
+                    document.getElementById("previewImage").style.width = "100px"
+                    document.getElementById("previewImage").style.borderRadius = "5px"
+
+
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse
-
+import time
 def homepage(r):
     return render(r,"index.html")
 
