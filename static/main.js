@@ -53,7 +53,7 @@ function sendData() {
     document.getElementById('postThecontentButton').style.display = "none";
     document.getElementById('loadingbarforPost').style.display = "flex";
     let roating = 0;
-    setInterval(() => {
+    let loadingscreenInter = setInterval(() => {
       document.getElementById("postLoadingImage").style.rotate = `${roating}deg`;
       roating = roating + 3;
     }, 10);
@@ -76,10 +76,14 @@ function sendData() {
       credentials: 'same-origin',
       body: formData,
     })
-      .then(response => response.text())
+      .then(response => response.json())
       .then(data => {
         document.getElementById('loadingbarforPost').style.display = "none";
-        console.log('Success:', data);
+        console.log("it is not")
+        if(data.id!="error"){
+          clearInterval(loadingscreenInter)
+          gotoPage(`/post/${data.id}`)
+        }
       })
       .catch(error => {
         console.error('Error:', error);
@@ -87,3 +91,6 @@ function sendData() {
   }
 }
 
+window.addEventListener('popstate', function(event) {
+  gotoPage(window.location.href)
+});

@@ -10,4 +10,4 @@ class posts(models.Model):
 class user(models.Model):
     userId = models.CharField(max_length=200)
     sessonId = models.CharField(max_length=100)
-    userName = models.CharField(max_length=200)
+    userName = models.CharField(max_length=200) 

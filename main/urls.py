@@ -7,6 +7,7 @@ urlpatterns = [
     path("profile",views.profilePage),
     path("test", views.test),
     path("validatedata", views.validitingPostData),
-    path("getarandomname", views.nameGenerator)
+    path("getarandomname", views.nameGenerator),
+    path("post/<str:id>",views.postView)
 ]
  

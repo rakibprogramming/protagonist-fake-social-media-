@@ -385,3 +385,39 @@ body{
     width: 30px;
     height: 30px;
 }
+#comments{
+    width: 100%;
+    margin-top: 14px;
+}
+.comment{
+    width: 382px;
+    margin-left: 23px;
+    margin-bottom: 12px;
+}
+.commentCreatorInfo{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.commentCreatorInfo img{
+    width: 30px;
+    border-radius: 50%;
+}
+.commentCreatorInfo span{
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 8px;
+}
+.commentContent{
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+#commentsText{
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+}

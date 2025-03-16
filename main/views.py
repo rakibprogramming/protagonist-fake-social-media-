@@ -4,7 +4,7 @@ import time
 import requests
 from . import utils
 from . import models
-
+import PIL
 
 def homepage(r):
     response = render(r,"index.html")
@@ -68,9 +68,9 @@ def test(r):
 def validitingPostData(req):
     if req.method == "POST":
         textdata = req.POST.get('postText')
-        print(textdata)
-        userId = 'dummy'
-        postId = "dummy"
+        userId = req.COOKIES.get("identifier")
+        userId = list(models.user.objects.filter(sessonId = userId).values())[0]["userId"]
+        postId = utils.randomString(10)
         hasImage = "0"
         uploaded_file = req.FILES.get('file')
         if uploaded_file:
@@ -80,7 +80,28 @@ def validitingPostData(req):
                     destination.write(chunk)
         models.posts(userId=userId,postId=postId,hasImage=hasImage,text=textdata).save()
 
-    return HttpResponse("{status: 'done'}") 
+        return HttpResponse('{"id": "'+postId+'"}') 
+    else:
+        return HttpResponse('{"id": "error"}')
 
 def nameGenerator(r):
     return HttpResponse(utils.nameGenerator()) 
+
+def postView(req,id):
+    postModel = models.posts.objects.filter(postId = id)
+    numberOfPost = len(postModel.values())
+    if numberOfPost == 1:
+        postValues = list(postModel.values())[0]
+        userId = postValues["userId"]
+        caption = postValues["text"]
+        print(userId)
+        userInfo = list(models.user.objects.filter(userId = userId).values())[0]
+        userName = userInfo["userName"]
+        postInfo = {
+            "userName" : userName,
+            "userId" : userId,
+            "caption" : caption, 
+        }
+        return render(req,"post.html",context=postInfo) 
+    else:
+        return HttpResponse("not found")
