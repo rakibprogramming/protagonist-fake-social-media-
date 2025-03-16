@@ -6,6 +6,7 @@ urlpatterns = [
     path("activity",views.notificationPage),
     path("profile",views.profilePage),
     path("test", views.test),
-    path("validatedata", views.validitingPostData)
+    path("validatedata", views.validitingPostData),
+    path("getarandomname", views.nameGenerator)
 ]
  
