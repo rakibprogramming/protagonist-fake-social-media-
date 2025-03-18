@@ -33,28 +33,16 @@
             <div id="headerText">Notification</div>
 
             <div class="notifinations">
-                <div class="notification">
+                {%for nt in noti%}
+                <div onclick="gotoPage('{{nt.redirectiTo}}')" class="notification">
                     <div class="notificantionMakerUserInfo">
-                        <div class="notificationMakerImage"><img src="/static/fakeprofile.png" alt=""></div>
-                        <div class="notificationMakerTextInfo"><span class="notificationMakerName">Rakib Ahmed</span><span class="notificationMakingTime">6 Hour ago</span></div>
+                        <div class="notificationMakerImage"><img src="/static/profileIcons/{{nt.byWho}}.jpg" alt=""></div>
+                        <div class="notificationMakerTextInfo"><span class="notificationMakerName">{{nt.senderName}}</span><span class="notificationMakingTime">{{nt.time}}</span></div>
 
-                        <div class="notificationContent">Rakib Ahmed Liked Your comment</div>
+                        <div class="notificationContent">{{nt.message}}</div>
                     </div>
                 </div>
-                <div class="notification">
-                    <div class="notificantionMakerUserInfo">
-                        <div class="notificationMakerImage"><img src="/static/fakeprofile.png" alt=""></div>
-                        <div class="notificationMakerTextInfo"><span class="notificationMakerName">Rakib Ahmed</span><span class="notificationMakingTime">6 Hour ago</span></div>
-                        <div class="notificationContent">Rakib Ahmed Liked Your comment</div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <div class="notificantionMakerUserInfo">
-                        <div class="notificationMakerImage"><img src="/static/fakeprofile.png" alt=""></div>
-                        <div class="notificationMakerTextInfo"><span class="notificationMakerName">Rakib Ahmed</span><span class="notificationMakingTime">6 Hour ago</span></div>
-                        <div class="notificationContent">Rakib Ahmed Liked Your comment</div>
-                    </div>
-                </div>
+                {%endfor%}
             </div>
 
 

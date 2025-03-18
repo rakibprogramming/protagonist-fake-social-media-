@@ -6,21 +6,30 @@ from . import utils
 from . import models
 import os
 from django.utils.html import escape
-
 import random
+
+def addNotification(byWho,toWho,message,redirecto):
+    timeNow = str(time.time())
+    models.notification(byWho=byWho, toWho = toWho, message = message, redirectiTo = redirecto,time=timeNow).save()
+
+
+
 def homepage(r):
-    response = render(r,"index.html")
+    userName = utils.nameGenerator()
+    userId = userName.replace(" ","")
+    userId = userId.lower()
+    response = render(r,"index.html",context={"userid":userId})
     response.set_cookie("test","home")
     useridintifier = r.COOKIES.get("identifier")
     if not useridintifier:
         session = utils.randomString(100)
         response.set_cookie("identifier",session)
-        userName = utils.nameGenerator()
-        userId = userName.replace(" ","")
-        userId = userId.lower()
+        
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
         utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
+    else:
+        response = render(r,"index.html",context={"userid":list(models.user.objects.filter(sessonId= useridintifier).values())[0]["userId"]})
     return response
 
 
@@ -36,6 +45,18 @@ def notificationPage(r):
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
         utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
+    else:
+        userId = list(models.user.objects.filter(sessonId = useridintifier).values())[0]['userId']
+        notifications = list(models.notification.objects.filter(toWho = userId).values())
+        realdata=[]
+        for i in notifications:
+            i["senderName"] = list(models.user.objects.filter(userId=i["byWho"]).values())[0]["userName"]
+            i["recieaverName"] = list(models.user.objects.filter(userId=i["toWho"]).values())[0]["userName"]
+            i['time'] = utils.findDuration(float(i["time"]))
+            realdata.append(i)
+        realdata.reverse()
+        contex = {"noti":realdata }
+        response = render(r,"notification.html",context=contex)
     response.set_cookie("test","notiification")
     return response
 
@@ -106,7 +127,8 @@ def addingcomment(req):
         postID = req.POST.get("postId")
         commentTime = str(time.time())
         models.comment(commentText=commentText,postId=postID,commentId=commentId,time=commentTime, userId=userId, userName=username).save()
-
+        poserId = list(models.posts.objects.filter(postId = postID).values())[0]["userId"]
+        addNotification(byWho=userId,toWho=poserId,message="Commented on Your Post",redirecto="/post/"+postID)
         return HttpResponse("DONE")
 
 
@@ -124,6 +146,7 @@ def postView(req,id):
         userId = postValues["userId"]
         caption = postValues["text"]
         image = postValues["hasImage"]
+        timePassed = utils.findDuration(float(postValues['time']))
         print(userId)
         userInfo = list(models.user.objects.filter(userId = userId).values())[0]
         userName = userInfo["userName"]
@@ -137,7 +160,8 @@ def postView(req,id):
             "comments": comment,
             "numOfComment" : numOfComment,
             "likeState": "likes",
-            "numOfLike" : len(models.likes.objects.filter(postId = id))
+            "numOfLike" : len(models.likes.objects.filter(postId = id)),
+            "timePassed": timePassed
         }
         if len(models.likes.objects.filter(userId = SLEFuserId, postId = id)) !=0:
            postInfo["likeState"] = "liked" 
@@ -163,11 +187,12 @@ def sendPostData(req):
         i["text"] = escape(i["text"])
         i["numOfPost"] = len(models.comment.objects.filter(postId = i["postId"]))
         i["numOfLike"] = len(models.likes.objects.filter(postId = i["postId"]))
+        i["timePassed"] = utils.findDuration(float(i['time']))
         
         if len(models.likes.objects.filter(userId = userId, postId = i["postId"])) !=0:
            i["likeState"] = "liked" 
-        realdata.append(i)
-    random.shuffle(realdata)
+        realdata.append(i) 
+    realdata.reverse() 
     contx = {
         'posts':realdata
     }
@@ -183,9 +208,10 @@ def addLike(req):
         if remove == "no":
             adding = models.likes(userId = userId, postId = postId)
             adding.save()
+            poserId = list(models.posts.objects.filter(postId = postId).values())[0]["userId"]
+            addNotification(byWho=userId,toWho=poserId,message="Liked on Your Post",redirecto="/post/"+postId)
         else:
             models.likes.objects.filter(postId = postId, userId = userId).delete()
             return HttpResponse("DONE")
-
- 
+        
     return HttpResponse("NOT DONE")

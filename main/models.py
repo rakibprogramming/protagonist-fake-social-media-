@@ -25,3 +25,12 @@ class comment(models.Model):
 class likes(models.Model):
     userId = models.CharField(max_length=100)
     postId = models.CharField(max_length=10, db_index=True)
+
+class notification(models.Model):
+    byWho = models.CharField(max_length=100)
+    toWho = models.CharField(max_length=100)
+    message = models.CharField(max_length=500)
+    redirectiTo = models.CharField(max_length=30)
+    read = models.CharField(max_length=3, default="no")
+    time = models.CharField(max_length=30,default="1742224146.9047246")
+    

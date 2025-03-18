@@ -24,7 +24,7 @@
                 <div class="navELements currentNavLocation"><img src="/static/navIconHome.png" alt=""><span>Home</span>
                 </div>
                 <div class="navELements" onclick="gotoPage('/activity')"><img src="/static/activity.png"
-                        alt=""><span>Activity</span></div>
+                        alt=""><span>Activity</span> <div id="unreadNotificaiton"></div></div>
                 <div class="navELements" onclick="gotoPage('/profile')"><img src="/static/profile.png"
                         alt=""><span>Profile</span></div>
 
@@ -40,7 +40,7 @@
             <div id="headerText">Home</div>
             <div id="addingPostArea">
                 <div id="addingPostElements">
-                    <div id="profilePcitrue"><img src="/static/fakeprofile.png" alt=""></div>
+                    <div id="profilePcitrue"><img src="/static/profileIcons/{{userid}}.jpg" alt=""></div>
                     <div id="writing">
                         <div id="textArea"><textarea placeholder="What's on you mind?" name="postText"
                                 id="postText"></textarea></div>

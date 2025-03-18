@@ -6,3 +6,6 @@ admin.site.register(models.posts)
 admin.site.register(models.user)
 admin.site.register(models.comment) 
 admin.site.register(models.likes) 
+admin.site.register(models.notification)
+
+

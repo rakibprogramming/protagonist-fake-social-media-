@@ -306,6 +306,7 @@ body{
     width: 40%;
     display: flex;
     padding-top: 10px;
+    cursor: pointer;
     padding-bottom: 10px;
 }
 .notificantionMakerUserInfo{
@@ -422,4 +423,11 @@ body{
     font-family: "Be Vietnam Pro", sans-serif;
     font-size: 22px;
     font-weight: 700;
+}
+#unreadNotificaiton{
+    width: 7;
+    height: 7px;
+    border-radius: 50%;
+    background-color: rgb(255, 81, 0);
+    margin-left: 2px;
 }

@@ -5,6 +5,7 @@ from PIL import Image
 import boto3
 from botocore.exceptions import ClientError
 import os
+import time
 
 def generate_fantasy_name():
     consonant_syllables = [
@@ -123,6 +124,28 @@ def upload_to_r2(file_path, bucket_name, object_name, account_id=None, access_ke
         print(f"Upload failed: {e}")
         return False
     
+
+
+
+def findDuration(timeInUnix):
+    now = time.time()
+    passed = now - timeInUnix
+    toReturn ="0 seconds ago"
+    if passed > 0-1 and passed < 60-1:
+        toReturn = str(int(passed)) + " seconds ago"
+    elif passed > 60-1 and passed < 3600-1:
+        toReturn =  str(int(passed/60)) + " minute ago"
+    elif passed > 3600-1 and passed < 86400-1:
+        toReturn =  str(int(passed/3600)) + " hours ago"
+    elif passed > 86400-1 and passed < 2592000-1:
+        toReturn = str(int(passed/86400)) + " days ago"
+    elif passed > 2592000-1 and passed < 31104000 -1:
+        toReturn = str(int(passed/2592000)) + " months ago"
+    else:
+        toReturn = str(int(passed/31104000)) + " years ago"
+    return toReturn
+
+
 
 
 
