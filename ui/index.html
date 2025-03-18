@@ -1,6 +1,7 @@
 <html lang="en">
 
 <head>
+    {% csrf_token %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style.css">
@@ -14,6 +15,7 @@
 </head>
 
 <body>
+    <div id="test"></div>
     <div id="loadingScrseen"></div>
     <div id="parent">
         <div class="navSpace"></div>
@@ -54,7 +56,7 @@
                 </div>
             </div>
 
-            <div class="posts">
+            <!-- <div class="posts">
                 <div class="creatorInfo">
                     <img src="/static/fakeprofile.png" alt="">
                     <div class="creatorTextInfo">
@@ -73,60 +75,20 @@
                     <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
                 </div>
                 <div class="commentsItarections">
-                    <input type="text" placeholder="Add a comment...">
+                    <form onsubmit="return addingComment(event, 'dfslfs');" action="#">
+                    <input id="dfslfs"  type="text" placeholder="Add a comment...">
+                    </form>
                 </div>
-            </div>
-            <div class="posts">
-                <div class="creatorInfo">
-                    <img src="/static/fakeprofile.png" alt="">
-                    <div class="creatorTextInfo">
-                        <span class="postCreatorNameinPost">Samantha Hill</span><br>
-                        <span class="creationTimeofThepost">3 hours ago</span>
-                    </div>
-                </div>
-                <div class="caption">
-                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished
-                        reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm
-                        GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
-                </div>
-                <!-- <div class="imageFrame"><img src="/static/example.png" alt=""></div> -->
-                <div class="postItarection">
-                    <div class="postInarectionItem"><img src="/static/comments.png" alt=""><span>24</span></div>
-                    <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
-                </div>
-                <div class="commentsItarections">
-                    <input type="text" placeholder="Add a comment...">
-                </div>
-            </div>
-
-            <div class="posts">
-                <div class="creatorInfo">
-                    <img src="/static/fakeprofile.png" alt="">
-                    <div class="creatorTextInfo">
-                        <span class="postCreatorNameinPost">Samantha Hill</span><br>
-                        <span class="creationTimeofThepost">3 hours ago</span>
-                    </div>
-                </div>
-                <div class="caption">
-                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished
-                        reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm
-                        GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
-                </div>
-                <!-- <div class="imageFrame"><img src="/static/example.png" alt=""></div> -->
-                <div class="postItarection">
-                    <div class="postInarectionItem"><img src="/static/comments.png" alt=""><span>24</span></div>
-                    <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
-                </div>
-                <div class="commentsItarections">
-                    <input type="text" placeholder="Add a comment...">
-                </div>
-            </div>
-
-
+            </div> -->
         </div>
     </div>
     <script src="/static/main.js"></script>
     <script>
+        var myDiv = document.getElementById("content");
+
+        myDiv.addEventListener("scroll", () => {
+            console.log("parcentace scrolled: ", (myDiv.scrollTop + myDiv.clientHeight) / (myDiv.scrollHeight) * 100, "%");
+        });
         document.getElementById("postImage").addEventListener("change", function (event) {
             const file = event.target.files[0];
             if (file) {
@@ -142,6 +104,7 @@
                 reader.readAsDataURL(file);
             }
         });
+        getPost();
 
     </script>
 </body>

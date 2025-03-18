@@ -37,6 +37,31 @@
 
             <div id="headerText">Post By <b>{{userName}}</b></div>
 
+            <!-- <div class="posts">
+                <div class="creatorInfo">
+                    <img src="/static/profileIcons/{{userId}}.jpg" alt="">
+                    <div class="creatorTextInfo">
+                        <span class="postCreatorNameinPost">{{userName}}</span><br>
+                        <span class="creationTimeofThepost">3 hours ago</span>
+                    </div>
+                </div>
+                <div class="caption">
+                    <span>{{caption}}</span>
+                </div>
+                {{hasimage}}
+                {%if hasImage == "1" %}
+                <div class="imageFrame"><img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/postImage/{{postId}}.jpg" alt=""></div>
+                {%endif%}
+                <div class="postItarection">
+                    <div class="postInarectionItem"><img src="/static/comments.png" alt=""><span>{{numOfComment}}</span></div>
+                    <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
+                </div>
+                <div class="commentsItarections">
+                    <form onsubmit="return addingComment(event, '{{postId}}');" action="#">
+                        <input id="{{postId}}"  type="text" placeholder="Add a comment...">
+                    </form>
+                </div>
+            </div> -->
             <div class="posts">
                 <div class="creatorInfo">
                     <img src="/static/profileIcons/{{userId}}.jpg" alt="">
@@ -48,29 +73,33 @@
                 <div class="caption">
                     <span>{{caption}}</span>
                 </div>
-                <div class="imageFrame"><img src="/static/example.png" alt=""></div>
+                {%if hasImage == "1" %}
+                <div class="imageFrame"><img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/postImage/{{postId}}.jpg" alt=""></div>
+                {%endif%}
                 <div class="postItarection">
-                    <div class="postInarectionItem"><img src="/static/comments.png" alt=""><span>24</span></div>
-                    <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
+                    <div class="postInarectionItem"><img  src="/static/comments.png" alt=""><span>{{numOfComment}}</span></div>
+                    <div class="postInarectionItem"><img id="{{postId}}LIKE" onclick="sendAddingLikeRequest('{{postId}}')" src="/static/{{likeState}}.png" alt=""><span id="{{postId}}LIKECOUNT">{{numOfLike}}</span></div>
                 </div>
                 <div class="commentsItarections">
-                    <input type="text" placeholder="Add a comment...">
+                    <form onsubmit="return addingComment(event, '{{postId}}');" action="#">
+                    <input id="{{postId}}"  type="text" placeholder="Add a comment...">
+                    </form>
                 </div>
             </div>
+
+
+
+
             <div id="commentsText">Comments</div>
             <div id="comments">
+                {%for cmt in comments%}
                 <div class="comment">
                     <div class="commentCreatorInfo">
-                        <img src="/static/fakeprofile.png" alt=""><span>Rakib Ahmed</span>
+                        <img src="/static/profileIcons/{{cmt.userId}}.jpg" alt=""><span>{{cmt.userName}}</span>
                     </div>
-                    <div class="commentContent">hey whatsukp</div>
+                    <div class="commentContent">{{cmt.commentText}}</div>
                 </div>
-                <div class="comment">
-                    <div class="commentCreatorInfo">
-                        <img src="/static/fakeprofile.png" alt=""><span>Rakib Ahmed</span>
-                    </div>
-                    <div class="commentContent">hey whatsukp</div>
-                </div>
+                {%endfor%}
             </div>
 
         </div>
