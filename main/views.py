@@ -27,7 +27,7 @@ def homepage(r):
         response.set_cookie("identifier",session)
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
-        utils.saveFile("https://picsum.photos/100",".https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/"+userId+".jpg")
+        utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
     else:
         response = render(r,"index.html",context={"userid":list(models.user.objects.filter(sessonId= useridintifier).values())[0]["userId"]})
     return response
