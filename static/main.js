@@ -99,7 +99,7 @@ function renderPost(username, userid, caption, hasimage, postid) {
   post = `
   <div class="posts">
                 <div class="creatorInfo">
-                    <img src="/static/profileIcons/${userid}.jpg" alt="">
+                    <img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/${userid}.jpg" alt="">
                     <div class="creatorTextInfo">
                         <span class="postCreatorNameinPost">${username}</span><br>
                         <span class="creationTimeofThepost">3 hours ago</span>
@@ -124,10 +124,20 @@ function renderPost(username, userid, caption, hasimage, postid) {
 }
 
 function getPost() {
+  let paretn = document.getElementById("content");
+  paretn.insertAdjacentHTML("beforeend", '<div id="postLoadingWating"><img id="postLoadingWatingImage" src="/static/loading.png" alt=""></div>')
+  let roating = 0;
+  let postLoadingInterval = setInterval(() => {
+    document.getElementById("postLoadingWatingImage").style.rotate = `${roating}deg`;
+    roating = roating + 3;
+  }, 10);
+
   const csrftoken = getCookie('csrftoken');
   fetch("/getpost").then(r => r.text()).then(data => {
     let contentparent = document.getElementById("content")
     contentparent.insertAdjacentHTML("beforeend", data)
+    clearInterval(postLoadingInterval);
+    document.getElementById("postLoadingWating").remove();
 
   }).catch((error) => console.error('Error:', error))
 }
@@ -168,18 +178,31 @@ function sendAddingLikeRequest(id) {
     formData.append("postID", id);
     fetch("/addlike", { method: "POST", headers: { 'X-CSRFToken': csrftoken }, credentials: "same-origin", body: formData }).then(res => res.text()).then(data => console.log(data)).catch(er => console("FUCK"))
     likeIMGelement.src = "/static/liked.png";
-    let NumOfLike = document.getElementById(id+"LIKECOUNT").innerText;
+    let NumOfLike = document.getElementById(id + "LIKECOUNT").innerText;
     NumOfLike = Number(NumOfLike);
-    document.getElementById(id+"LIKECOUNT").innerText = NumOfLike + 1;
-  }else{
+    document.getElementById(id + "LIKECOUNT").innerText = NumOfLike + 1;
+  } else {
     const csrftoken = getCookie("csrftoken");
     let formData = new FormData();
     formData.append("postID", id);
     formData.append("remove", id);
     fetch("/addlike", { method: "POST", headers: { 'X-CSRFToken': csrftoken }, credentials: "same-origin", body: formData }).then(res => res.text()).then(data => console.log(data)).catch(er => console("FUCK"))
     likeIMGelement.src = "/static/likes.png";
-    let NumOfLike = document.getElementById(id+"LIKECOUNT").innerText;
+    let NumOfLike = document.getElementById(id + "LIKECOUNT").innerText;
     NumOfLike = Number(NumOfLike);
-    document.getElementById(id+"LIKECOUNT").innerText = NumOfLike - 1;
+    document.getElementById(id + "LIKECOUNT").innerText = NumOfLike - 1;
   }
+}
+
+
+
+function postLoading() {
+  let paretn = document.getElementById("content");
+  paretn.insertAdjacentHTML("beforeend", '<div id="postLoadingWating"><img id="postLoadingWatingImage" src="/static/loading.png" alt=""></div>')
+  let roating = 0;
+  setInterval(() => {
+    document.getElementById("postLoadingWatingImage").style.rotate = `${roating}deg`;
+    roating = roating + 3;
+  }, 10);
+
 }

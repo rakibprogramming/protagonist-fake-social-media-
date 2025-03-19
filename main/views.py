@@ -27,7 +27,7 @@ def homepage(r):
         response.set_cookie("identifier",session)
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
-        utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
+        utils.saveFile("https://picsum.photos/100",".https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/"+userId+".jpg")
     else:
         response = render(r,"index.html",context={"userid":list(models.user.objects.filter(sessonId= useridintifier).values())[0]["userId"]})
     return response
@@ -44,7 +44,7 @@ def notificationPage(r):
         userId = userId.lower()
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
-        utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
+        utils.saveFile("https://picsum.photos/100",".https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/"+userId+".jpg")
     else:
         userId = list(models.user.objects.filter(sessonId = useridintifier).values())[0]['userId']
         notifications = list(models.notification.objects.filter(toWho = userId).values())
@@ -72,7 +72,7 @@ def profilePage(r):
         userId = userId.lower()
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
-        utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
+        utils.saveFile("https://picsum.photos/100",".https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/"+userId+".jpg")
     else:
         datas = models.user.objects.filter(sessonId = useridintifier).values()
         print(datas)
@@ -226,7 +226,7 @@ def createAiUSer(req,ammount):
         session = utils.randomString(100)
         addUser = models.user(userId = userId, sessonId = session, userName = userName,ai="yes")
         addUser.save()
-        utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
+        utils.saveFile("https://picsum.photos/100",".https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/"+userId+".jpg")
         print("Added ",userId)
     return HttpResponse(ammount+32132)  
 

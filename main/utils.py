@@ -49,19 +49,7 @@ def randomString(num):
         str+=string.ascii_letters[random.randint(0,len(string.ascii_letters)-1)]
     return str
 
-def saveFile(url,loc): 
-    file_name = loc  # Set the desired file name
 
-    response = requests.get(url, stream=True)
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        with open(file_name, "wb") as file:
-            for chunk in response.iter_content(chunk_size=1024):
-                file.write(chunk)
-        print("Download complete!")
-    else:
-        print("Failed to download file:", response.status_code)
 
 def is_image(file_path):
     try:
@@ -149,3 +137,18 @@ def findDuration(timeInUnix):
 
 
 
+def saveFile(url,loc): 
+    file_name = loc  # Set the desired file name
+
+    response = requests.get(url, stream=True)
+    
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        with open(file_name, "wb") as file:
+            for chunk in response.iter_content(chunk_size=1024):
+                file.write(chunk)
+        upload_to_r2(loc,"protagonist","profileIcons/"+loc.split("profileIcons/")[1])
+        print("Download complete!")
+    else:
+        print("Failed to download file:", response.status_code)
