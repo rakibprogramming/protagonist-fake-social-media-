@@ -1,0 +1,7 @@
+Django
+requests
+Pillow
+boto3
+botocore
+groq
+psycopg2-binary
