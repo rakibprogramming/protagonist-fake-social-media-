@@ -12,7 +12,7 @@ from .ai import groqai
 def addNotification(byWho,toWho,message,redirecto):
     timeNow = str(time.time())
     models.notification(byWho=byWho, toWho = toWho, message = message, redirectiTo = redirecto,time=timeNow).save()
-
+ 
 
 
 def homepage(r):
@@ -179,7 +179,11 @@ def sendPostData(req):
     urserID = req.COOKIES.get("identifier")
     userId = list(models.user.objects.filter(sessonId = urserID).values())[0]["userId"]
     realdata= []
-    datas = list(models.posts.objects.values())
+    lastId = int(req.POST.get("lastId"))
+    datas = list(models.posts.objects.values().order_by('-id')[:10][::-1])
+    if lastId > 0:
+        datas = list(models.posts.objects.filter(id__lte=11).values().order_by('-id')[:10]) 
+    newLastScrool = datas[len(datas)-1]["id"]
     for i in datas:
         userInfo = list(models.user.objects.filter(userId = i['userId']).values())[0]
         userName = userInfo["userName"]
@@ -195,7 +199,9 @@ def sendPostData(req):
         realdata.append(i) 
     realdata.reverse() 
     contx = {
-        'posts':realdata
+        'posts':realdata,
+        "lastScrool":newLastScrool 
+
     }
      
     return render(req,"postrender.html",context=contx)
@@ -236,13 +242,26 @@ def addAIComment(req):
         users = list(models.user.objects.filter(ai="yes").values())
         caption = list(models.posts.objects.filter(postId=postId).values())[0]["text"]
         comments = groqai.getCommentForPost(caption=caption)
-        for i in comments:
-            randomUser = random.choice(users)["userId"]
-            userName = list(models.user.objects.filter(userId = randomUser).values())[0]["userName"]
-            models.comment(commentText=i,postId=postId,commentId=utils.randomString(10),time=str(time.time()), userId=randomUser, userName=userName).save()
+        numberofComment = len(models.comment.objects.filter(postId = postId))
+        do = True
+        print(numberofComment) 
+        if numberofComment > 100: 
+            do = False
+            print("COmments are more than 100 to doing toss")
+            if 3 == random.randint(1,3):
+                do = True
+        if do:
+            for i in comments:
+                randomUser = random.choice(users)["userId"]
+                userName = list(models.user.objects.filter(userId = randomUser).values())[0]["userName"]
+                postUser = list(models.posts.objects.filter(postId = postId).values())[0]["userId"]
+                models.comment(commentText=i,postId=postId,commentId=utils.randomString(10),time=str(time.time()), userId=randomUser, userName=userName).save()
+                addNotification(byWho=randomUser,toWho=postUser,message="Commented on Your Post",redirecto="/post/"+postId)
+        for a in range(random.randint(1,20)):
+                models.likes(userId = utils.randomString(10), postId = postId).save()
 
         return HttpResponse(postId) 
-
+ 
 
 def renderComments(req):
     id = req.GET.get("id")

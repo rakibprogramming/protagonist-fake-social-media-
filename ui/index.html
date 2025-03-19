@@ -17,7 +17,7 @@
 <body>
     <div id="test"></div>
     <div id="loadingScrseen"></div>
-    <div id="parent">
+    <div id="parent"> 
         <div class="navSpace"></div>
         <div id="nav">
             <div id="nav_Elements">
@@ -55,6 +55,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" id="lastIdValue" value="0">
 
             <!-- <div class="posts">
                 <div class="creatorInfo">
@@ -83,12 +84,22 @@
         </div>
        
     </div>
+    <script>let requestRunning = false;</script>
     <script src="/static/main.js"></script>
     <script>
+        let maxPrevius = 0
         var myDiv = document.getElementById("content");
-
+        
         myDiv.addEventListener("scroll", () => {
-            console.log("parcentace scrolled: ", (myDiv.scrollTop + myDiv.clientHeight) / (myDiv.scrollHeight) * 100, "%");
+            console.log(myDiv.scrollHeight)
+            let percentesScrool= ((myDiv.scrollTop + myDiv.clientHeight) - maxPrevius) / ((myDiv.scrollHeight)-maxPrevius) * 100;
+            console.log(percentesScrool)
+            if (percentesScrool > 80 && !requestRunning){
+                requestRunning = true;
+                maxPrevius = myDiv.scrollHeight;
+                getPost();
+                
+            }
         });
         document.getElementById("postImage").addEventListener("change", function (event) {
             const file = event.target.files[0];

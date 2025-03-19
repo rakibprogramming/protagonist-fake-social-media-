@@ -66,7 +66,7 @@ def getCommentForPost(caption, image="no"):
         
         personality1 = random.choice(personalityes)
         personality2 = random.choice(personalityes)
-        prompt = '''Write 2 comment for a post where the caption is {'''+caption+''' and the commenter personalites are {'''+personality1+" and " +personality2+'''}. Try to mimic real person and keep them short and on the point (however you can make it large only if needed). give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
+        prompt = '''Write 2 comment for a post where the caption is {'''+caption+''' and the commenter personalites are {'''+personality1+" and " +personality2+'''}. Try to mimic real person and keep them short and on the point. give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
         response = getResponseFormGroq(prompt)
         usefulltext = response.split("</think>")[1]
         if "```json" in usefulltext:

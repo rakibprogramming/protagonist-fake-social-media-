@@ -144,7 +144,11 @@ function addimgAIComment(event, id) {
   return false;
 }
 addimgAIComment()
-setInterval(addimgAIComment, 7000);
+let aiintval = setInterval(addimgAIComment, 7000);
+window.addEventListener('popstate', function (event) {
+  clearInterval(aiintval);
+  console.log("cleared interval")
+});
 
 </script>
 

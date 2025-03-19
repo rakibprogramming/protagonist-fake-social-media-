@@ -1,4 +1,8 @@
 function gotoPage(url) {
+  if (typeof aiintval !== "undefined") {
+    clearInterval(aiintval);
+    console.log("cleared interval");
+  }
   const preloadCSS = document.createElement("link");
   preloadCSS.rel = "preload";
   preloadCSS.href = "/static/style.css";
@@ -122,8 +126,10 @@ function renderPost(username, userid, caption, hasimage, postid) {
   `
   return post;
 }
-
 function getPost() {
+  let lastId = document.getElementById("lastIdValue").value;
+  document.getElementById("lastIdValue").remove();
+
   let paretn = document.getElementById("content");
   paretn.insertAdjacentHTML("beforeend", '<div id="postLoadingWating"><img id="postLoadingWatingImage" src="/static/loading.png" alt=""></div>')
   let roating = 0;
@@ -131,13 +137,15 @@ function getPost() {
     document.getElementById("postLoadingWatingImage").style.rotate = `${roating}deg`;
     roating = roating + 3;
   }, 10);
-
+  let formData = new FormData();
+  formData.append("lastId", lastId)
   const csrftoken = getCookie('csrftoken');
-  fetch("/getpost").then(r => r.text()).then(data => {
+  fetch("/getpost", { method: "POST", headers: { 'X-CSRFToken': csrftoken }, credentials: "same-origin", body: formData }).then(r => r.text()).then(data => {
     let contentparent = document.getElementById("content")
     contentparent.insertAdjacentHTML("beforeend", data)
     clearInterval(postLoadingInterval);
     document.getElementById("postLoadingWating").remove();
+    requestRunning = false;
 
   }).catch((error) => console.error('Error:', error))
 }

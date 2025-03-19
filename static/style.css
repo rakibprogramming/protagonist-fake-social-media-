@@ -403,18 +403,18 @@ body{
     align-items: center;
 }
 .commentCreatorInfo img{
-    width: 30px;
+    width: 40px;
     border-radius: 50%;
 }
 .commentCreatorInfo span{
     font-family: "Be Vietnam Pro", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     margin-left: 8px;
 }
 .commentContent{
     font-family: "Be Vietnam Pro", sans-serif;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 500;
     margin-left: 10px;
     margin-top: 10px;
@@ -433,10 +433,11 @@ body{
 }
 
 #postLoadingWatingImage{
-    width: 50px;
-    margin-top: 40px;
+    width: 30px;
 }
 #postLoadingWating{
     width: 100%;
+    margin-top: 20px;
+    margin-bottom: 40px;
     text-align: center;
 }
