@@ -123,6 +123,32 @@
         });
 
     </script>
+
+<script>
+
+function addimgAIComment(event, id) {
+    const formdata = new FormData();
+    formdata.append("postId", '{{postId}}' );
+  fetch("/addaicomment", {
+    method: "POST",
+    headers: {
+      'X-CSRFToken': csrftoken,
+    },
+    credentials: 'same-origin',
+    body: formdata,
+  }).then(resp => resp.text()).then(data => {
+    console.log("Comment added:", data);
+    
+  }).catch(error => console.error('Error:', error));
+
+  return false;
+}
+addimgAIComment()
+setInterval(addimgAIComment, 7000);
+
+</script>
+
+
 </body>
 
 </html>

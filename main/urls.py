@@ -11,6 +11,9 @@ urlpatterns = [
     path("post/<str:id>",views.postView),
     path("getpost",views.sendPostData),
     path("addcomment",views.addingcomment),
-    path("addlike",views.addLike)
+    path("addlike",views.addLike),
+    path("createaiuser/<int:ammount>",views.createAiUSer),
+    path("addaicomment",views.addAIComment),
+    path("rendercomment",views.renderComments)
 ]
  

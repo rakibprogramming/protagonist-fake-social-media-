@@ -12,6 +12,7 @@ class user(models.Model):
     userId = models.CharField(max_length=200)
     sessonId = models.CharField(max_length=100)
     userName = models.CharField(max_length=200) 
+    ai = models.CharField(max_length=3,default="no")
 
 class comment(models.Model):
     commentText = models.CharField(max_length=1000)

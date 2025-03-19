@@ -76,8 +76,21 @@ WSGI_APPLICATION = 'protagonist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+        #'ENGINE': 'django.db.backends.sqlite3',
+
+        'ENGINE': 'django.db.backends.postgresql',
+
+        'NAME': 'defaultdb',
+
+        'USER': 'avnadmin',
+
+        'PASSWORD': 'AVNS_kGdgHn2hHylRNMfnLwI',
+
+        'HOST': 'protagonist-renderrakib-6890.l.aivencloud.com',
+
+        'PORT': '21573',
+
     }
 }
 

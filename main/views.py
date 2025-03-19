@@ -7,6 +7,7 @@ from . import models
 import os
 from django.utils.html import escape
 import random
+from .ai import groqai
 
 def addNotification(byWho,toWho,message,redirecto):
     timeNow = str(time.time())
@@ -24,7 +25,6 @@ def homepage(r):
     if not useridintifier:
         session = utils.randomString(100)
         response.set_cookie("identifier",session)
-        
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
         utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
@@ -151,6 +151,7 @@ def postView(req,id):
         userInfo = list(models.user.objects.filter(userId = userId).values())[0]
         userName = userInfo["userName"]
         comment = list(models.comment.objects.filter(postId = id).values())
+        comment.reverse() 
         numOfComment = len(models.comment.objects.filter(postId = id))
         postInfo = {
             "userName" : userName,
@@ -215,3 +216,36 @@ def addLike(req):
             return HttpResponse("DONE")
         
     return HttpResponse("NOT DONE")
+
+
+def createAiUSer(req,ammount):
+    for a in range(ammount):
+        userName = utils.nameGenerator()
+        userId = userName.replace(" ","")
+        userId = userId.lower()
+        session = utils.randomString(100)
+        addUser = models.user(userId = userId, sessonId = session, userName = userName,ai="yes")
+        addUser.save()
+        utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
+        print("Added ",userId)
+    return HttpResponse(ammount+32132)  
+
+def addAIComment(req):
+    if req.method == "POST":
+        postId = req.POST.get("postId")
+        users = list(models.user.objects.filter(ai="yes").values())
+        caption = list(models.posts.objects.filter(postId=postId).values())[0]["text"]
+        comments = groqai.getCommentForPost(caption=caption)
+        for i in comments:
+            randomUser = random.choice(users)["userId"]
+            userName = list(models.user.objects.filter(userId = randomUser).values())[0]["userName"]
+            models.comment(commentText=i,postId=postId,commentId=utils.randomString(10),time=str(time.time()), userId=randomUser, userName=userName).save()
+
+        return HttpResponse(postId) 
+
+
+def renderComments(req):
+    id = req.GET.get("id")
+    comment = list(models.comment.objects.filter(postId = id).values())
+    context = {"comments":comment}
+    return render(req,"commentrender.html",context=context)

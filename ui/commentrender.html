@@ -1,0 +1,8 @@
+{%for cmt in comments%}
+    <div class="comment">
+        <div class="commentCreatorInfo">
+            <img src="/static/profileIcons/{{cmt.userId}}.jpg" alt=""><span>{{cmt.userName}}</span>
+        </div>
+        <div class="commentContent">{{cmt.commentText}}</div>
+    </div>
+{%endfor%}
