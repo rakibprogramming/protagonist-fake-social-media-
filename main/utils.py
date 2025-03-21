@@ -71,13 +71,13 @@ def resize_image_by_width(file_path, target_width,saveLocation):
             new_height = int(original_height * ratio)
 
             resized_img = img.resize((target_width, new_height), Image.Resampling.LANCZOS)
-            resized_img.save(saveLocation,"JPEG")
+            resized_img.save(saveLocation,"JPEG",quality=50,optimize=True,progressive=True)
         else:
-            img.save(saveLocation,"JPEG")
+            img.save(saveLocation,"JPEG",quality=50,optimize=True,progressive=True)
 
 
 def upload_to_r2(file_path, bucket_name, object_name, account_id=None, access_key_id=None, secret_access_key=None):
-
+ 
     # Check if file exists
     if not os.path.isfile(file_path):
         raise FileNotFoundError(f"File {file_path} not found")

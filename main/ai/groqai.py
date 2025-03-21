@@ -27,7 +27,7 @@ def getResponseFormGroq(prompt):
 
 
 def groqimage(imageURL):
-    client = Groq(api_key=os.getenv('groqAPI'),)
+    client = Groq(api_key=random.choice(json.loads(os.getenv('groqAPI'))),)
     completion = client.chat.completions.create(
         model="llama-3.2-90b-vision-preview",
         messages=[
@@ -36,7 +36,7 @@ def groqimage(imageURL):
                 "content": [
                     {
                         "type": "text",
-                        "text": "Describe this image. Describe precisely what you can see here yet keeping the explanition not so long. and return as a text that other ai models can understand the exact image. Describe al least 10 words under 20 words. Return just the explanition without anything."
+                        "text": "Describe this image. Describe precisely what you can see here yet keeping the explanition not so long. and return as a text that other ai models can understand the exact image. Describe al least 50 words under 150 words. Return just the explanition without anything. Explain in one paragraph"
                     },
                     {
                         "type": "image_url",
@@ -52,21 +52,24 @@ def groqimage(imageURL):
         max_completion_tokens=1024,
         top_p=1,
         stream=False,
-        stop=None,
+        stop=None, 
     )
 
-    print(completion.choices[0].message.content)
+    return completion.choices[0].message.content
 
 
-def getCommentForPost(caption, image="no"):
-
-    if image == "no":
+def getCommentForPost(caption, image="no", imageExpl = ""):
+        
         with open("./main/ai/personality.json") as personalitys:
             personalityes = json.load(personalitys)
         
         personality1 = random.choice(personalityes)
         personality2 = random.choice(personalityes)
-        prompt = '''Write 2 comment for a post where the caption is {'''+caption+''' and the commenter personalites are {'''+personality1+" and " +personality2+'''}. Try to mimic real person and keep them short and on the point. give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
+        if image == "no":
+            prompt = '''Write 2 comment for a post where the caption is {' '''+caption+''' ' } and the commenter personalites are {'''+personality1+" and " +personality2+'''}. Try to mimic real person and keep them short and on the point. give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
+            
+        else:
+            prompt = '''Write 2 comment for a post where the caption is { ' '''+caption+''' ' } This Post containt a image that describe to, {' '''+imageExpl+'''  '}.and the commenter personalites are {'''+personality1+" and " +personality2+'''}. Try to mimic real person and keep them short and on the point. give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
         response = getResponseFormGroq(prompt)
         usefulltext = response.split("</think>")[1]
         if "```json" in usefulltext:
@@ -76,8 +79,4 @@ def getCommentForPost(caption, image="no"):
         usefulltext = usefulltext.replace("\n","")
         comments = json.loads(usefulltext)
         return comments
-
-
-
-
 

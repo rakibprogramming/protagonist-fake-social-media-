@@ -7,6 +7,7 @@ class posts(models.Model):
     text = models.CharField(max_length=10000)
     hasImage = models.CharField(max_length=1)
     time = models.CharField(max_length=30, default="1742224146.9047246")
+    imageDiscription = models.CharField(max_length=10000, default="NA")
 
 class user(models.Model):
     userId = models.CharField(max_length=200)

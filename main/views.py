@@ -24,7 +24,7 @@ def homepage(r):
     useridintifier = r.COOKIES.get("identifier")
     if not useridintifier:
         session = utils.randomString(100)
-        response.set_cookie("identifier",session)
+        response.set_cookie("identifier",session, max_age=60*60*24*30)
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
         utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
@@ -98,6 +98,7 @@ def validitingPostData(req):
         hasImage = "0"
         timeIs = str(time.time())
         uploaded_file = req.FILES.get('file')
+        iamgeExplanation = "NA"
         if uploaded_file:
             tmpLocation = utils.randomString(20)
             tmpimageLocation= "./static/tmp/" + tmpLocation
@@ -108,10 +109,11 @@ def validitingPostData(req):
                 hasImage = "1"
                 utils.resize_image_by_width(tmpimageLocation,1000,"./static/tmp/"+postId+".jpg")
                 utils.upload_to_r2(file_path="./static/tmp/"+postId+".jpg",bucket_name="protagonist",object_name="postImage/"+postId+".jpg")
-                os.remove("./static/tmp/"+postId+".jpg")
+                iamgeExplanation = groqai.groqimage("https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/postImage/"+postId+".jpg")
+                os.remove("./static/tmp/"+postId+".jpg") 
             os.remove(tmpimageLocation)
             
-        models.posts(userId=userId,postId=postId,hasImage=hasImage,text=textdata,time=timeIs).save()
+        models.posts(userId=userId,postId=postId,hasImage=hasImage,text=textdata,time=timeIs,imageDiscription=iamgeExplanation).save()
 
         return HttpResponse('{"id": "'+postId+'"}') 
     else:
@@ -240,8 +242,15 @@ def addAIComment(req):
     if req.method == "POST":
         postId = req.POST.get("postId")
         users = list(models.user.objects.filter(ai="yes").values())
-        caption = list(models.posts.objects.filter(postId=postId).values())[0]["text"]
-        comments = groqai.getCommentForPost(caption=caption)
+        postData = list(models.posts.objects.filter(postId=postId).values())[0]
+        caption = postData["text"]
+        hasimage = postData["hasImage"]
+        imageExplanation = postData["imageDiscription"]
+        if hasimage == "0":
+            comments = groqai.getCommentForPost(caption=caption)
+        else:
+            comments = groqai.getCommentForPost(caption=caption,image = "yes", imageExpl = imageExplanation )
+
         numberofComment = len(models.comment.objects.filter(postId = postId))
         do = True
         print(numberofComment) 
