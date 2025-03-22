@@ -19,8 +19,9 @@
         <div class="postInarectionItem"><img id="{{post.postId}}LIKE" onclick="sendAddingLikeRequest('{{post.postId}}')" src="/static/{{post.likeState}}.png" alt=""><span id="{{post.postId}}LIKECOUNT">{{post.numOfLike}}</span></div>
     </div>
     <div class="commentsItarections">
-        <form onsubmit="return addingComment(event, '{{post.postId}}');" action="#">
+        <form class="commetnSubmit" onsubmit="return addingComment(event, '{{post.postId}}');" action="#">
         <input id="{{post.postId}}"  type="text" placeholder="Add a comment...">
+        <button class="commetnSubmitButton" type="submit">Send</button>
         </form>
     </div>
 </div>

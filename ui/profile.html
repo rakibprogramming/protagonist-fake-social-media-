@@ -35,51 +35,47 @@
                 <img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/{{userid}}.jpg" alt=""><span>{{name}}</span>
             </div>
 
-            <div class="posts">
-                <div class="creatorInfo">
-                    <img src="/static/fakeprofile.png" alt="">
-                    <div class="creatorTextInfo">
-                        <span class="postCreatorNameinPost">Samantha Hill</span><br>
-                        <span class="creationTimeofThepost">3 hours ago</span>
-                    </div>
-                </div>
-                <div class="caption">
-                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
-                </div>
-                <div class="imageFrame"><img src="/static/example.png" alt=""></div>
-                <div class="postItarection">
-                    <div class="postInarectionItem"><img src="/static/comments.png" alt=""><span>24</span></div>
-                    <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
-                </div>
-                <div class="commentsItarections">
-                    <input type="text" placeholder="Add a comment...">
-                </div>
-            </div>
-            <div class="posts">
-                <div class="creatorInfo">
-                    <img src="/static/fakeprofile.png" alt="">
-                    <div class="creatorTextInfo">
-                        <span class="postCreatorNameinPost">Samantha Hill</span><br>
-                        <span class="creationTimeofThepost">3 hours ago</span>
-                    </div>
-                </div>
-                <div class="caption">
-                    <span>Just finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm GladwellJust finished reading Malcolm Gladwell</span>
-                </div>
-                <!-- <div class="imageFrame"><img src="/static/example.png" alt=""></div> -->
-                <div class="postItarection">
-                    <div class="postInarectionItem"><img src="/static/comments.png" alt=""><span>24</span></div>
-                    <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
-                </div>
-                <div class="commentsItarections">
-                    <input type="text" placeholder="Add a comment...">
-                </div>
-            </div>
+        
 
 
         </div>
     </div>
     <script src="/static/main.js"></script>
+    <script>function getUserPost(){
+        console.log("working")
+
+  let paretn = document.getElementById("content");
+  paretn.insertAdjacentHTML(
+    "beforeend",
+    '<div id="postLoadingWating"><img id="postLoadingWatingImage" src="/static/loading.png" alt=""></div>'
+  );
+  let roating = 0;
+  let postLoadingInterval = setInterval(() => {
+    document.getElementById(
+      "postLoadingWatingImage"
+    ).style.rotate = `${roating}deg`;
+    roating = roating + 3;
+  }, 10);
+  let formData = new FormData();
+  formData.append("userID", "{{profileuserid}}");
+  const csrftoken = getCookie("csrftoken");
+  fetch("/getuserpost", {
+    method: "POST",
+    headers: { "X-CSRFToken": csrftoken },
+    credentials: "same-origin",
+    body: formData,
+  })
+    .then((r) => r.text())
+    .then((data) => {
+      let contentparent = document.getElementById("content");
+      contentparent.insertAdjacentHTML("beforeend", data);
+      clearInterval(postLoadingInterval);
+      document.getElementById("postLoadingWating").remove();
+      requestRunning = false;
+    })
+    .catch((error) => console.error("Error:", error));
+}
+getUserPost()</script>
 </body>
 
 </html>

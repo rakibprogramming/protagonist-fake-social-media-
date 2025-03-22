@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-17f1izt=n8jo1)acw+x2b=kl_=0v*d)v%jc37to7mdc-ujc=1^
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://protagonist-fake-social-media.onrender.com',
+    'http://localhost:8000',
+    "https://protagonis.beastave.com"
+]
 
 # Application definition
 

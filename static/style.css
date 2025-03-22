@@ -27,6 +27,7 @@ body{
     margin-left: 24px;
     background-color: white;
     margin-top: 20px;
+    overflow: hidden;
     z-index: 100;
 }
 
@@ -280,7 +281,7 @@ body{
     width: calc(50% - 32px);
     height: 48px;
     margin-left: 16px;
-    margin-right: 16px;
+    margin-right: 0px;
     background-color: #F0F2F5;
     border: none;
     outline: none;
@@ -419,6 +420,26 @@ body{
     margin-left: 10px;
     margin-top: 10px;
 }
+.commetnSubmit{
+    display: flex;
+    align-items: center;
+}
+.commetnSubmitButton{
+    background-color: #1A80E5 !important;
+    width: 10% !important;
+    font-size: 10px !important;
+    margin-left: 5px !important;
+    padding: 5px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    height: 40px !important;
+    color: white !important;
+    display: none;
+    border-radius: 12px;
+    outline: none;
+    border: none;
+
+}
 #commentsText{
     font-family: "Be Vietnam Pro", sans-serif;
     font-size: 22px;
@@ -440,4 +461,71 @@ body{
     margin-top: 20px;
     margin-bottom: 40px;
     text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .navELements span{
+        display: none;
+    }
+    #nav{
+        width: 50px;
+        margin-left: 2px;
+    }
+    .navSpace{
+        width: 60px;
+        margin-left: 0px;
+    }
+    #addingPostArea{
+        margin-right: 5px;
+        margin-left: 0px;
+    }
+    #addingPostElements{
+        margin-right: 5px;
+        margin-left: 0px;
+    }
+    #nav_Elements{
+        margin: 5px;
+    }
+    .navELements{
+        justify-content: center;
+    }
+    .navELements img{
+        width: 20px;
+        margin-left: 0px;
+    }
+    #content{
+        padding-right: 0px;
+    }
+    .creatorInfo {
+        margin-left: 0px;
+    }
+    .creatorInfo img {
+        width: 40px;
+    }
+    .postCreatorNameinPost {
+        font-size: 13px;
+    }
+    .creationTimeofThepost {
+        font-size: 12px;
+    }
+    #profilePcitrue {
+        width: auto;
+    }
+    #profilePcitrue img {
+        width: 30px;
+        margin: 10px;
+    }
+    .imageFrame img {
+        width: 100%;
+    }
+    .commetnSubmitButton{
+        display: block;
+    }
+    .commentsItarections input {
+        width: 80%;
+    }
+    .comment {
+        width: 80%;
+    }
 }

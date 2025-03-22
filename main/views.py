@@ -63,11 +63,12 @@ def notificationPage(r):
 
 def profilePage(r):
     useridintifier = r.COOKIES.get("identifier")
+    progileUSerId = r.GET.get("userid")
     if not useridintifier:
         session = utils.randomString(100)
         userName = utils.nameGenerator()
         userId = userName.replace(" ","")
-        response = render(r,"profile.html",{"userid":userId,"name":userName})
+        response = render(r,"profile.html",{"userid":userId,"name":userName,"profileuserid":progileUSerId})
         response.set_cookie("identifier",session,max_age=60*60*24*30)
         userId = userId.lower()
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
@@ -78,7 +79,7 @@ def profilePage(r):
         print(datas)
         userId = datas[0]["userId"]
         userName = datas[0]["userName"]
-        response = render(r,"profile.html",{"userid":userId,"name":userName})
+        response = render(r,"profile.html",{"userid":userId,"name":userName,"profileuserid":progileUSerId})
     return response
 
 def test(r):
@@ -185,6 +186,36 @@ def sendPostData(req):
     datas = list(models.posts.objects.values().order_by('-id')[:10][::-1])
     if lastId > 0:
         datas = list(models.posts.objects.filter(id__lte=11).values().order_by('-id')[:10]) 
+    newLastScrool = datas[len(datas)-1]["id"]
+    for i in datas:
+        userInfo = list(models.user.objects.filter(userId = i['userId']).values())[0]
+        userName = userInfo["userName"]
+        i["likeState"] = "likes"
+        i["username"] = userName
+        i["text"] = escape(i["text"])
+        i["numOfPost"] = len(models.comment.objects.filter(postId = i["postId"]))
+        i["numOfLike"] = len(models.likes.objects.filter(postId = i["postId"]))
+        i["timePassed"] = utils.findDuration(float(i['time']))
+        
+        if len(models.likes.objects.filter(userId = userId, postId = i["postId"])) !=0:
+           i["likeState"] = "liked" 
+        realdata.append(i) 
+    realdata.reverse() 
+    contx = {
+        'posts':realdata,
+        "lastScrool":newLastScrool 
+
+    }
+     
+    return render(req,"postrender.html",context=contx)
+
+
+def sendUserPostData(req):
+    urserID = req.COOKIES.get("identifier")
+    userId = list(models.user.objects.filter(sessonId = urserID).values())[0]["userId"]
+    realdata= []
+    postUserId = req.POST.get("userID")
+    datas = list(models.posts.objects.filter(userId=postUserId).values())
     newLastScrool = datas[len(datas)-1]["id"]
     for i in datas:
         userInfo = list(models.user.objects.filter(userId = i['userId']).values())[0]
