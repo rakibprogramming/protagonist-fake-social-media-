@@ -12,14 +12,26 @@ function gotoPage(url) {
   preloadCSS.as = "style";
   history.pushState(null, "", url);
   fetch(url)
-    .then((response) => response.text())
+    .then((response) => {
+      if (!response.ok) {
+        showPopUP("An error occurred, please refresh", "error");
+        return Promise.reject("Error occurred");
+      }
+
+      return response.text().then((text) => [text, response.ok]);
+      
+    })
     .then((data) => {
-      document.open();
-      document.write(data);
-      document.close();
+      console.log(data)
+      if(data[1]){
+        document.open();
+        document.write(data[0]);
+        document.close();
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
+      showPopUP("an error occurred, please refresh", "error");
     });
 
   document.head.appendChild(preloadCSS);

@@ -13,22 +13,30 @@ import threading
 def addNotification(byWho,toWho,message,redirecto):
     timeNow = str(time.time())
     models.notification(byWho=byWho, toWho = toWho, message = message, redirectiTo = redirecto,time=timeNow).save()
-def addpost():
-    postText = groqai.getPost()
+def addpost(forWho):
+    lastToObject = list(models.posts.objects.filter(ai="no",forWho = forWho).values())
+    random.shuffle(lastToObject)
+    lastToObject = lastToObject[:30]
+    lastToObjectText = "{ "
+    for obj in lastToObject:
+        obj = obj['text']   
+        lastToObjectText += " ["+obj+"]," 
+    lastToObjectText = lastToObjectText +  "}"
+    postText = groqai.getPost(lastToObjectText)
     userId = random.choice(list(models.user.objects.filter(ai = "yes").values()))["userId"]
     postId = utils.randomString(10)
-    models.posts(userId=userId,postId=postId,hasImage="0",text=postText,time=str(time.time())).save()
+    models.posts(userId=userId,postId=postId,hasImage="0",text=postText,time=str(time.time()),ai="yes",forWho = forWho).save()
 
 
 def homepage(r):
+    
     userName = utils.nameGenerator()
     userId = userName.replace(" ","")
     userId = userId.lower()
     response = render(r,"index.html",context={"userid":userId})
     response.set_cookie("test","home")
     useridintifier = r.COOKIES.get("identifier")
-    addAIPostThread = threading.Thread(target=addpost)
-    addAIPostThread.start()
+
     if not useridintifier:
         session = utils.randomString(100)
         response.set_cookie("identifier",session, max_age=60*60*24*30)
@@ -36,8 +44,12 @@ def homepage(r):
         addUser.save()
         utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
     else:
-        response = render(r,"index.html",context={"userid":list(models.user.objects.filter(sessonId= useridintifier).values())[0]["userId"]})
-    return response
+        me = list(models.user.objects.filter(sessonId= useridintifier).values())[0]["userId"]
+        response = render(r,"index.html",context={"userid":me})
+
+        addAIPostThread = threading.Thread(target=addpost,args=(me,))
+        addAIPostThread.start()
+    return response 
 
 
 def notificationPage(r):
@@ -86,8 +98,12 @@ def profilePage(r):
     else:
         datas = models.user.objects.filter(sessonId = useridintifier).values()
         print(datas)
-        userId = datas[0]["userId"]
-        userName = datas[0]["userName"]
+        if progileUSerId == "notSet":
+            userId = datas[0]["userId"] 
+            userName = datas[0]["userName"]
+        else:
+            userId = progileUSerId
+            userName = list(models.user.objects.filter(userId = userId).values())[0]["userName"] 
         response = render(r,"profile.html",{"userid":userId,"name":userName,"profileuserid":progileUSerId})
     return response
 
@@ -123,7 +139,7 @@ def validitingPostData(req):
                 os.remove("./static/tmp/"+postId+".jpg") 
             os.remove(tmpimageLocation)
             
-        models.posts(userId=userId,postId=postId,hasImage=hasImage,text=textdata,time=timeIs,imageDiscription=iamgeExplanation).save()
+        models.posts(userId=userId,postId=postId,hasImage=hasImage,text=textdata,time=timeIs,imageDiscription=iamgeExplanation, forWho = userId).save()
 
         return HttpResponse('{"id": "'+postId+'"}') 
     else:
@@ -197,12 +213,15 @@ def sendPostData(req):
     userId = list(models.user.objects.filter(sessonId = urserID).values())[0]["userId"]
     realdata= []
     lastId = int(req.POST.get("lastId"))
-    datas = list(models.posts.objects.values().order_by('-id')[:10][::-1])
+    datas = list(models.posts.objects.filter(forWho=userId).values().order_by('-id')[:10][::-1])
     if lastId > 0:
         print("now doing this", lastId)
-        datas = list(models.posts.objects.filter(id__lte=lastId).values().order_by('-id')[:10]) 
+        datas = list(models.posts.objects.filter(id__lte=lastId,forWho = userId).values().order_by('-id')[:10]) 
         datas.reverse() 
-    newLastScrool = datas[0]["id"]
+    if len(datas) > 0:
+        newLastScrool = datas[0]["id"] 
+    else:
+        newLastScrool = 0 
     print(newLastScrool) 
     for i in datas: 
         userInfo = list(models.user.objects.filter(userId = i['userId']).values())[0]
@@ -290,6 +309,17 @@ def createAiUSer(req,ammount):
 
 def addAIComment(req):
     if req.method == "POST":
+        urserID = req.COOKIES.get("identifier")
+        realuserId = list(models.user.objects.filter(sessonId = urserID).values())[0]["userId"]
+        lastToObject = list(models.posts.objects.filter(ai="no",forWho=realuserId).values())
+        lastToObject.reverse()
+        lastToObject = lastToObject[:30] 
+        lastToObjectText = "{ "
+        for obj in lastToObject: 
+            obj = obj['text']  
+            lastToObjectText += " ["+obj+"]," 
+        lastToObjectText = lastToObjectText +  "}"
+ 
         postId = req.POST.get("postId")
         users = list(models.user.objects.filter(ai="yes").values())
         postData = list(models.posts.objects.filter(postId=postId).values())[0]
@@ -297,9 +327,9 @@ def addAIComment(req):
         hasimage = postData["hasImage"]
         imageExplanation = postData["imageDiscription"]
         if hasimage == "0":
-            comments = groqai.getCommentForPost(caption=caption)
+            comments = groqai.getCommentForPost(caption=caption,context = lastToObjectText)
         else:
-            comments = groqai.getCommentForPost(caption=caption,image = "yes", imageExpl = imageExplanation )
+            comments = groqai.getCommentForPost(caption=caption,image = "yes", imageExpl = imageExplanation, context = lastToObjectText)
 
         numberofComment = len(models.comment.objects.filter(postId = postId))
         do = True

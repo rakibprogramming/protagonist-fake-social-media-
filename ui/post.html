@@ -14,6 +14,9 @@
   </head>
 
   <body>
+    <div id="loadingScreenHtml" style="display: none;">
+      <div id="loadingScreenScreen"><img id="loadingScreenLoadingIcon" src="/static/loading.png" alt=""></div>
+  </div>
     <div id="loadingScrseen"></div>
     <div id="parent">
       <div class="navSpace"></div>
@@ -134,24 +137,6 @@
       </div>
     </div>
     <script src="/static/main.js"></script>
-    <script>
-      document
-        .getElementById("postImage")
-        .addEventListener("change", function (event) {
-          const file = event.target.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              document.getElementById("previewImage").src = e.target.result;
-              document.getElementById("selcetImageButtonPareant").style.width =
-                "100px";
-              document.getElementById("previewImage").style.width = "100px";
-              document.getElementById("previewImage").style.borderRadius =
-                "5px";
-            };
-            reader.readAsDataURL(file);
-          }
-        });
     </script>
 
     <script>
@@ -175,7 +160,7 @@
         return false;
       }
       addimgAIComment();
-      let aiintval = setInterval(addimgAIComment, 7000);
+      let aiintval = setInterval(addimgAIComment, 20000);
       window.addEventListener("popstate", function (event) {
         clearInterval(aiintval);
         console.log("cleared interval");

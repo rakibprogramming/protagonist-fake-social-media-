@@ -8,6 +8,8 @@ class posts(models.Model):
     hasImage = models.CharField(max_length=1)
     time = models.CharField(max_length=30, default="1742224146.9047246")
     imageDiscription = models.CharField(max_length=10000, default="NA")
+    ai = models.CharField(max_length=3,default="no")
+    forWho = models.CharField(max_length=100,default="N/A")
 
 class user(models.Model):
     userId = models.CharField(max_length=200)

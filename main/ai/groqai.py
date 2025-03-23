@@ -58,7 +58,7 @@ def groqimage(imageURL):
     return completion.choices[0].message.content
 
 
-def getCommentForPost(caption, image="no", imageExpl = ""):
+def getCommentForPost(caption,context, image="no", imageExpl = ""):
         
         with open("./main/ai/personality.json") as personalitys:
             personalityes = json.load(personalitys)
@@ -66,10 +66,10 @@ def getCommentForPost(caption, image="no", imageExpl = ""):
         personality1 = random.choice(personalityes)
         personality2 = random.choice(personalityes)
         if image == "no":
-            prompt = '''Write 2 comment for a post where the caption is {' '''+caption+''' ' } and the commenter personalites are {'''+personality1+" and " +personality2+'''}. Try to mimic real person and keep them short and on the point. give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
+            prompt = '''Write 2 comment for a post where the caption is {' '''+caption+''' ' } and the commenter personalites are {'''+personality1+" and " +personality2+'''}.  Use other people post as context, here is some data of what other people are saying '''+context+'''. Use this data only as context, never rewrite the same exprasiton, try to come up with something different using the context and the idia of user data.. give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
             
         else:
-            prompt = '''Write 2 comment for a post where the caption is { ' '''+caption+''' ' } This Post containt a image that describe to, {' '''+imageExpl+'''  '}.and the commenter personalites are {'''+personality1+" and " +personality2+'''}. Try to mimic real person and keep them short and on the point. give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
+            prompt = '''Write 2 comment for a post where the caption is { ' '''+caption+''' ' } This Post containt a image that describe to, {' '''+imageExpl+'''  '}.and the commenter personalites are {'''+personality1+" and " +personality2+'''}.  Use other people post as context, here is some data of what other people are saying '''+context+'''. Use this data only as context, never rewrite the same exprasiton, try to come up with something different using the context and the idia of user data. give output in json form. Just the comment is needed without any other data point. Here is example output, ["comment one","comment two"]. Dont forgot to check the syntex again.'''
         response = getResponseFormGroq(prompt)
         usefulltext = response.split("</think>")[1]
         if "```json" in usefulltext:
@@ -81,14 +81,15 @@ def getCommentForPost(caption, image="no", imageExpl = ""):
         return comments
 
 
-def getPost():
+def getPost(context):
     with open("./main/ai/postpersonalit.json") as personalitys:
             personalityes = json.load(personalitys)
     personality1 = random.choice(personalityes)
     additionalPersonality = ["gen z","normal"]
-    responce =  getResponseFormGroq("Write a short tweet like and on the point post  in social media with personally of { "+personality1+" and he is a "+random.choice(additionalPersonality)+" }. Write the post in plain text without any quotation or any other format.")
+    responce =  getResponseFormGroq("Write a short tweet like and on the point post  in social media with personally of { "+personality1+" and he is a "+random.choice(additionalPersonality)+" }. Use other people post as context, here is some data of what other people are saying "+context+". Use this data only as context, never rewrite the same exprasiton, try to come up with something different using the context and the idea of user data. Combine idea from all data entries to produce one quite talking about only one thing. . Write the post in plain text without any quotation or any other format. Make the post short and small like really short.")
     responce = responce.split("</think>")[1]
-    responce = responce.replace("\n","")
+    responce = responce.replace("\n","") 
     return responce
 
-
+ 
+  
