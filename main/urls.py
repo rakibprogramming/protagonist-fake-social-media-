@@ -15,6 +15,6 @@ urlpatterns = [
     path("addlike",views.addLike),
     path("createaiuser/<int:ammount>",views.createAiUSer),
     path("addaicomment",views.addAIComment),
-    path("rendercomment",views.renderComments)
+    path("rendercomment",views.renderComments),
 ]
  

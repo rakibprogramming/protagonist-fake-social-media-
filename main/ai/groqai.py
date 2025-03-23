@@ -80,3 +80,15 @@ def getCommentForPost(caption, image="no", imageExpl = ""):
         comments = json.loads(usefulltext)
         return comments
 
+
+def getPost():
+    with open("./main/ai/postpersonalit.json") as personalitys:
+            personalityes = json.load(personalitys)
+    personality1 = random.choice(personalityes)
+    additionalPersonality = ["gen z","normal"]
+    responce =  getResponseFormGroq("Write a short tweet like and on the point post  in social media with personally of { "+personality1+" and he is a "+random.choice(additionalPersonality)+" }. Write the post in plain text without any quotation or any other format.")
+    responce = responce.split("</think>")[1]
+    responce = responce.replace("\n","")
+    return responce
+
+

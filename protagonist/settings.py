@@ -75,28 +75,45 @@ TEMPLATES = [
 WSGI_APPLICATION = 'protagonist.wsgi.application'
 
 
-# Database
+# Prod database
+
+
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+
+#         #'ENGINE': 'django.db.backends.sqlite3',
+
+#         'ENGINE': 'django.db.backends.postgresql',
+
+#         'NAME': 'defaultdb',
+
+#         'USER': 'avnadmin',
+
+#         'PASSWORD': 'AVNS_kGdgHn2hHylRNMfnLwI',
+
+#         'HOST': 'protagonist-renderrakib-6890.l.aivencloud.com',
+
+#         'PORT': '21573',
+
+#     }
+# }
+
+
+# Developtment Database
+
+
 
 DATABASES = {
     'default': {
-
-        #'ENGINE': 'django.db.backends.sqlite3',
-
-        'ENGINE': 'django.db.backends.postgresql',
-
-        'NAME': 'defaultdb',
-
-        'USER': 'avnadmin',
-
-        'PASSWORD': 'AVNS_kGdgHn2hHylRNMfnLwI',
-
-        'HOST': 'protagonist-renderrakib-6890.l.aivencloud.com',
-
-        'PORT': '21573',
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
+
+
+
 
 
 # Password validation

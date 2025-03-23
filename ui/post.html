@@ -181,6 +181,11 @@
         console.log("cleared interval");
       });
 
+
+
+      let commentGetingInverval = setInterval(() => {
+        fetch("/rendercomment?id={{postId}}").then(res => res.text()).then(res => document.getElementById("comments").innerHTML = res).catch(er => console.log(er))
+      }, 10000);
         
 
     </script>

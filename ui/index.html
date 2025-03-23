@@ -15,6 +15,12 @@
 </head>
 
 <body>
+    <div id="infoPopUp">
+        <!-- <div class="infopopup normalPopUP" >hey how are you</div>
+        <div class="infopopup error">hey how are you</div>
+        <div class="infopopup">hey how are you</div> -->
+
+    </div>
     <div id="test"></div>
     <div id="loadingScrseen"></div>
     <div id="parent"> 
@@ -106,10 +112,16 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    document.getElementById("previewImage").src = e.target.result;
-                    document.getElementById("selcetImageButtonPareant").style.width = "100px"
-                    document.getElementById("previewImage").style.width = "100px"
-                    document.getElementById("previewImage").style.borderRadius = "5px"
+                    
+                    document.getElementById("previewImage").style.borderRadius = "0px"
+                    document.getElementById("previewImage").style.width = "0px"
+                    setTimeout(() => {
+                        document.getElementById("selcetImageButtonPareant").style.width = "20%"
+                        document.getElementById("previewImage").src = e.target.result;
+                        document.getElementById("previewImage").style.width = "100%"
+                        document.getElementById("previewImage").style.borderRadius = "5px"
+                    }, 500);
+                    
 
 
                 };

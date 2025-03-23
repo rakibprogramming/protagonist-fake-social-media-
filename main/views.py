@@ -8,11 +8,16 @@ import os
 from django.utils.html import escape
 import random
 from .ai import groqai
+import threading
 
 def addNotification(byWho,toWho,message,redirecto):
     timeNow = str(time.time())
     models.notification(byWho=byWho, toWho = toWho, message = message, redirectiTo = redirecto,time=timeNow).save()
- 
+def addpost():
+    postText = groqai.getPost()
+    userId = random.choice(list(models.user.objects.filter(ai = "yes").values()))["userId"]
+    postId = utils.randomString(10)
+    models.posts(userId=userId,postId=postId,hasImage="0",text=postText,time=str(time.time())).save()
 
 
 def homepage(r):
@@ -22,6 +27,8 @@ def homepage(r):
     response = render(r,"index.html",context={"userid":userId})
     response.set_cookie("test","home")
     useridintifier = r.COOKIES.get("identifier")
+    addAIPostThread = threading.Thread(target=addpost)
+    addAIPostThread.start()
     if not useridintifier:
         session = utils.randomString(100)
         response.set_cookie("identifier",session, max_age=60*60*24*30)
@@ -63,12 +70,14 @@ def notificationPage(r):
 
 def profilePage(r):
     useridintifier = r.COOKIES.get("identifier")
-    progileUSerId = r.GET.get("userid")
+    progileUSerId = r.GET.get("userid","notSet")
+    if progileUSerId == "notSet" and useridintifier:
+        progileUSerId = list(models.user.objects.filter(sessonId=useridintifier).values())[0]["userId"]
     if not useridintifier:
         session = utils.randomString(100)
         userName = utils.nameGenerator()
-        userId = userName.replace(" ","")
-        response = render(r,"profile.html",{"userid":userId,"name":userName,"profileuserid":progileUSerId})
+        userId = userName.replace(" ","").lower()
+        response = render(r,"profile.html",{"userid":userId,"name":userName,"profileuserid":userId})
         response.set_cookie("identifier",session,max_age=60*60*24*30)
         userId = userId.lower()
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
@@ -121,6 +130,7 @@ def validitingPostData(req):
         return HttpResponse('{"id": "error"}')
 
 def addingcomment(req):
+    
     if req.method == "POST":
         userId = req.COOKIES.get("identifier")
         username = list(models.user.objects.filter(sessonId = userId).values())[0]["userName"]
@@ -175,7 +185,11 @@ def postView(req,id):
         return render(req,"post.html",context=postInfo) 
     else:
         return HttpResponse("not found")
-    
+
+
+
+
+
 
 
 def sendPostData(req):
@@ -185,12 +199,15 @@ def sendPostData(req):
     lastId = int(req.POST.get("lastId"))
     datas = list(models.posts.objects.values().order_by('-id')[:10][::-1])
     if lastId > 0:
-        datas = list(models.posts.objects.filter(id__lte=11).values().order_by('-id')[:10]) 
-    newLastScrool = datas[len(datas)-1]["id"]
-    for i in datas:
+        print("now doing this", lastId)
+        datas = list(models.posts.objects.filter(id__lte=lastId).values().order_by('-id')[:10]) 
+        datas.reverse() 
+    newLastScrool = datas[0]["id"]
+    print(newLastScrool) 
+    for i in datas: 
         userInfo = list(models.user.objects.filter(userId = i['userId']).values())[0]
         userName = userInfo["userName"]
-        i["likeState"] = "likes"
+        i["likeState"] = "likes" 
         i["username"] = userName
         i["text"] = escape(i["text"])
         i["numOfPost"] = len(models.comment.objects.filter(postId = i["postId"]))
@@ -216,21 +233,22 @@ def sendUserPostData(req):
     realdata= []
     postUserId = req.POST.get("userID")
     datas = list(models.posts.objects.filter(userId=postUserId).values())
-    newLastScrool = datas[len(datas)-1]["id"]
-    for i in datas:
-        userInfo = list(models.user.objects.filter(userId = i['userId']).values())[0]
-        userName = userInfo["userName"]
-        i["likeState"] = "likes"
-        i["username"] = userName
-        i["text"] = escape(i["text"])
-        i["numOfPost"] = len(models.comment.objects.filter(postId = i["postId"]))
-        i["numOfLike"] = len(models.likes.objects.filter(postId = i["postId"]))
-        i["timePassed"] = utils.findDuration(float(i['time']))
-        
-        if len(models.likes.objects.filter(userId = userId, postId = i["postId"])) !=0:
-           i["likeState"] = "liked" 
-        realdata.append(i) 
-    realdata.reverse() 
+    newLastScrool = 1
+    if len(datas) > 0:
+        for i in datas:
+            userInfo = list(models.user.objects.filter(userId = i['userId']).values())[0]
+            userName = userInfo["userName"]
+            i["likeState"] = "likes"
+            i["username"] = userName
+            i["text"] = escape(i["text"])
+            i["numOfPost"] = len(models.comment.objects.filter(postId = i["postId"]))
+            i["numOfLike"] = len(models.likes.objects.filter(postId = i["postId"]))
+            i["timePassed"] = utils.findDuration(float(i['time']))
+            
+            if len(models.likes.objects.filter(userId = userId, postId = i["postId"])) !=0:
+                i["likeState"] = "liked" 
+            realdata.append(i) 
+        realdata.reverse() 
     contx = {
         'posts':realdata,
         "lastScrool":newLastScrool 
@@ -265,7 +283,8 @@ def createAiUSer(req,ammount):
         session = utils.randomString(100)
         addUser = models.user(userId = userId, sessonId = session, userName = userName,ai="yes")
         addUser.save()
-        utils.saveFile("https://picsum.photos/100",".https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/"+userId+".jpg")
+        utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
+        utils.upload_to_r2("./static/profileIcons/"+userId+".jpg","protagonist","profileIcons/"+userId+".jpg")   
         print("Added ",userId)
     return HttpResponse(ammount+32132)  
 
@@ -306,5 +325,6 @@ def addAIComment(req):
 def renderComments(req):
     id = req.GET.get("id")
     comment = list(models.comment.objects.filter(postId = id).values())
+    comment.reverse()
     context = {"comments":comment}
     return render(req,"commentrender.html",context=context)
