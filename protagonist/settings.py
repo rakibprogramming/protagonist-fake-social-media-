@@ -80,37 +80,39 @@ WSGI_APPLICATION = 'protagonist.wsgi.application'
 
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
 
-#         #'ENGINE': 'django.db.backends.sqlite3',
+# This is a real aiven free plan database created with tempMail. Please creat you own.
+DATABASES = {
+    'default': {
 
-#         'ENGINE': 'django.db.backends.postgresql',
+        #'ENGINE': 'django.db.backends.sqlite3',
 
-#         'NAME': 'defaultdb',
+        'ENGINE': 'django.db.backends.postgresql',
 
-#         'USER': 'avnadmin',
+        'NAME': 'defaultdb',
 
-#         'PASSWORD': 'AVNS_kGdgHn2hHylRNMfnLwI',
+        'USER': 'avnadmin',
 
-#         'HOST': 'protagonist-renderrakib-6890.l.aivencloud.com',
+        'PASSWORD': 'AVNS_kGdgHn2hHylRNMfnLwI',
 
-#         'PORT': '21573',
+        'HOST': 'protagonist-renderrakib-6890.l.aivencloud.com',
 
-#     }
-# }
+        'PORT': '21573',
+
+    }
+}
 
 
 # Developtment Database
 
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db.sqlite3",
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 
 

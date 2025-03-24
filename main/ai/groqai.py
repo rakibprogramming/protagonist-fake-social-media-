@@ -86,10 +86,10 @@ def getPost(context):
             personalityes = json.load(personalitys)
     personality1 = random.choice(personalityes)
     additionalPersonality = ["gen z","normal"]
-    responce =  getResponseFormGroq("Write a short tweet like and on the point post  in social media with personally of { "+personality1+" and he is a "+random.choice(additionalPersonality)+" }. Use other people post as context, here is some data of what other people are saying "+context+". Use this data only as context, never rewrite the same exprasiton, try to come up with something different using the context and the idea of user data. Combine idea from all data entries to produce one quite talking about only one thing. . Write the post in plain text without any quotation or any other format. Make the post short and small like really short.")
+    # responce =  getResponseFormGroq("Write a short tweet like and on the point post  in social media with personally of { "+personality1+" and he is a "+random.choice(additionalPersonality)+" }. Use other people post as context, here is some data of what other people are saying "+context+". Use this data only as context, never rewrite the same exprasiton, try to come up with something different using the context and the idea of user data. Use these data as inpreation and dont answer them . Write the post in plain text without any quotation or any other format. Make the post short and small like really short.")
+    responce = getResponseFormGroq("You are a creative social media content generator your personality is "+personality1+" and "+random.choice(additionalPersonality)+". I will provide you with a few example posts that share a common theme or topic. Your task is to analyze the underlying idea of these posts and then generate an entirely new post that reflects the same theme, but without using the exact wording or keywords found in the examples. Ensure that the generated post is creative, unique, and in line with the context provided. Also, make the post size approximately the average length of recent posts. The given post will be in [] under a parent {}. every [] means one post. Here is some recent post, "+context+" , generate a new post with these data. The post only would be in plain text without anything, just the post.")
     responce = responce.split("</think>")[1]
     responce = responce.replace("\n","") 
     return responce
 
  
-  
