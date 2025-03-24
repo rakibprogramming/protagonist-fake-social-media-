@@ -233,7 +233,7 @@ def sendPostData(req):
         i["numOfLike"] = len(models.likes.objects.filter(postId = i["postId"]))
         i["timePassed"] = utils.findDuration(float(i['time']))
         
-        if len(models.likes.objects.filter(userId = userId, postId = i["postId"])) !=0:
+        if len(models.likes.objects.filter(userId = userId, postId = i["postId"])) == 1:
            i["likeState"] = "liked" 
         realdata.append(i) 
     realdata.reverse() 

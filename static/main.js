@@ -8,7 +8,7 @@ function gotoPage(url) {
   }
   const preloadCSS = document.createElement("link");
   preloadCSS.rel = "preload";
-  preloadCSS.href = "/static/style.css";
+  preloadCSS.href = "https://protagonist-b3c.pages.dev/style.css";
   preloadCSS.as = "style";
   history.pushState(null, "", url);
   fetch(url)
@@ -104,7 +104,7 @@ function sendData() {
     postData != "" ||
     !document
       .getElementById("previewImage")
-      .src.includes("/static/selectImage.png")
+      .src.includes("https://protagonist-b3c.pages.dev/selectImage.png")
   ) {
     document.getElementById("postThecontentButton").style.transform =
       "scale(0)";
@@ -192,8 +192,8 @@ function renderPost(username, userid, caption, hasimage, postid) {
                     : `<div class="imageFrame"><img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/postImage/${postid}.jpg" alt=""></div>`
                 }
                 <div class="postItarection">
-                    <div class="postInarectionItem"><img src="/static/comments.png" alt=""><span>24</span></div>
-                    <div class="postInarectionItem"><img src="/static/likes.png" alt=""><span>423</span></div>
+                    <div class="postInarectionItem"><img src="https://protagonist-b3c.pages.dev/comments.png" alt=""><span>24</span></div>
+                    <div class="postInarectionItem"><img src="https://protagonist-b3c.pages.dev/likes.png" alt=""><span>423</span></div>
                 </div>
                 <div class="commentsItarections">
                     <input type="text" placeholder="Add a comment...">
@@ -209,7 +209,7 @@ function getPost() {
   let paretn = document.getElementById("content");
   paretn.insertAdjacentHTML(
     "beforeend",
-    '<div id="postLoadingWating"><img id="postLoadingWatingImage" src="/static/loading.png" alt=""></div>'
+    '<div id="postLoadingWating"><img id="postLoadingWatingImage" src="https://protagonist-b3c.pages.dev/loading.png" alt=""></div>'
   );
   let roating = 0;
   let postLoadingInterval = setInterval(() => {
@@ -277,7 +277,7 @@ function addingComment(event, id) {
 
 function sendAddingLikeRequest(id) {
   let likeIMGelement = document.getElementById(id + "LIKE");
-  if (likeIMGelement.src.includes("/static/likes.png")) {
+  if (likeIMGelement.src.includes("/likes.png")) {
     const csrftoken = getCookie("csrftoken");
     let formData = new FormData();
     formData.append("postID", id);
@@ -290,7 +290,7 @@ function sendAddingLikeRequest(id) {
       .then((res) => res.text())
       .then((data) => console.log(data))
       .catch((er) => console("FUCK"));
-    likeIMGelement.src = "/static/liked.png";
+    likeIMGelement.src = "https://protagonist-b3c.pages.dev/liked.png";
     let NumOfLike = document.getElementById(id + "LIKECOUNT").innerText;
     NumOfLike = Number(NumOfLike);
     document.getElementById(id + "LIKECOUNT").innerText = NumOfLike + 1;
@@ -308,7 +308,7 @@ function sendAddingLikeRequest(id) {
       .then((res) => res.text())
       .then((data) => console.log(data))
       .catch((er) => console("FUCK"));
-    likeIMGelement.src = "/static/likes.png";
+    likeIMGelement.src = "https://protagonist-b3c.pages.dev/likes.png";
     let NumOfLike = document.getElementById(id + "LIKECOUNT").innerText;
     NumOfLike = Number(NumOfLike);
     document.getElementById(id + "LIKECOUNT").innerText = NumOfLike - 1;
@@ -319,7 +319,7 @@ function postLoading() {
   let paretn = document.getElementById("content");
   paretn.insertAdjacentHTML(
     "beforeend",
-    '<div id="postLoadingWating"><img id="postLoadingWatingImage" src="/static/loading.png" alt=""></div>'
+    '<div id="postLoadingWating"><img id="postLoadingWatingImage" src="https://protagonist-b3c.pages.dev/loading.png" alt=""></div>'
   );
   let roating = 0;
   setInterval(() => {
