@@ -177,7 +177,7 @@ function renderPost(username, userid, caption, hasimage, postid) {
   post = `
   <div class="posts">
                 <div class="creatorInfo">
-                    <img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/${userid}.jpg" alt="">
+                    <img src="/statics/profileIcons/${userid}.jpg" alt="">
                     <div class="creatorTextInfo">
                         <span class="postCreatorNameinPost">${username}</span><br>
                         <span class="creationTimeofThepost">3 hours ago</span>
@@ -189,7 +189,7 @@ function renderPost(username, userid, caption, hasimage, postid) {
                 ${
                   hasimage == "0"
                     ? ""
-                    : `<div class="imageFrame"><img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/postImage/${postid}.jpg" alt=""></div>`
+                    : `<div class="imageFrame"><img src="/statics/postImage/${postid}.jpg" alt=""></div>`
                 }
                 <div class="postItarection">
                     <div class="postInarectionItem"><img src="https://protagonist-b3c.pages.dev/comments.png" alt=""><span>24</span></div>

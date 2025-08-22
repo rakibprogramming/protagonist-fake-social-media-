@@ -1,3 +1,8 @@
 static/profileIcons/*
 static/postImage/*
 __pycache__/*
+env
+env/*
+static/profileIcons/*
+static/tmp/*
+.env

@@ -63,7 +63,7 @@ def notificationPage(r):
         userId = userId.lower()
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
-        utils.saveFile("https://picsum.photos/100",".https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/"+userId+".jpg")
+        utils.saveFile("https://picsum.photos/100","./statics/profileIcons/"+userId+".jpg")
     else:
         userId = list(models.user.objects.filter(sessonId = useridintifier).values())[0]['userId']
         notifications = list(models.notification.objects.filter(toWho = userId).values())
@@ -94,7 +94,7 @@ def profilePage(r):
         userId = userId.lower()
         addUser = models.user(userId = userId, sessonId = session, userName = userName)
         addUser.save()
-        utils.saveFile("https://picsum.photos/100",".https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/"+userId+".jpg")
+        utils.saveFile("https://picsum.photos/100","./statics/profileIcons/"+userId+".jpg")
     else:
         datas = models.user.objects.filter(sessonId = useridintifier).values()
         print(datas)
@@ -127,17 +127,16 @@ def validitingPostData(req):
         iamgeExplanation = "NA"
         if uploaded_file:
             tmpLocation = utils.randomString(20)
-            tmpimageLocation= "./static/tmp/" + tmpLocation
+            tmpimageLocation= "./static/postImage/" + tmpLocation
             with open(tmpimageLocation, 'wb+') as destination:
                 for chunk in uploaded_file.chunks():
                     destination.write(chunk)
             if utils.is_image(tmpimageLocation):
                 hasImage = "1"
-                utils.resize_image_by_width(tmpimageLocation,1000,"./static/tmp/"+postId+".jpg")
-                utils.upload_to_r2(file_path="./static/tmp/"+postId+".jpg",bucket_name="protagonist",object_name="postImage/"+postId+".jpg")
-                iamgeExplanation = groqai.groqimage("https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/postImage/"+postId+".jpg")
-                os.remove("./static/tmp/"+postId+".jpg") 
-            os.remove(tmpimageLocation)
+                utils.resize_image_by_width(tmpimageLocation,1000,"./static/postImage/"+postId+".jpg")
+                os.remove(tmpimageLocation)
+                iamgeExplanation = groqai.groqimage("https://protagonist.rakibahmed.top/statics/postImage/"+postId+".jpg")
+
             
         models.posts(userId=userId,postId=postId,hasImage=hasImage,text=textdata,time=timeIs,imageDiscription=iamgeExplanation, forWho = userId).save()
 
@@ -303,7 +302,6 @@ def createAiUSer(req,ammount):
         addUser = models.user(userId = userId, sessonId = session, userName = userName,ai="yes")
         addUser.save()
         utils.saveFile("https://picsum.photos/100","./static/profileIcons/"+userId+".jpg")
-        utils.upload_to_r2("./static/profileIcons/"+userId+".jpg","protagonist","profileIcons/"+userId+".jpg")   
         print("Added ",userId)
     return HttpResponse(ammount+32132)  
 
@@ -358,3 +356,7 @@ def renderComments(req):
     comment.reverse()
     context = {"comments":comment}
     return render(req,"commentrender.html",context=context)
+
+
+def serveStatic(req,fileName):
+    pass

@@ -3,7 +3,11 @@ import random
 from groq import Groq
 import json
 import random 
+from dotenv import load_dotenv
+
+load_dotenv()
 def getResponseFormGroq(prompt):
+
     client = Groq(
         api_key=random.choice(json.loads(os.getenv('groqAPI'))),
     )
@@ -29,7 +33,7 @@ def getResponseFormGroq(prompt):
 def groqimage(imageURL):
     client = Groq(api_key=random.choice(json.loads(os.getenv('groqAPI'))),)
     completion = client.chat.completions.create(
-        model="llama-3.2-90b-vision-preview",
+        model="meta-llama/llama-4-maverick-17b-128e-instruct",
         messages=[
             {
                 "role": "user",

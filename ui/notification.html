@@ -38,7 +38,7 @@
                 {%for nt in noti%}
                 <div onclick="gotoPage('{{nt.redirectiTo}}')" class="notification">
                     <div class="notificantionMakerUserInfo">
-                        <div class="notificationMakerImage"><img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/{{nt.byWho}}.jpg" alt=""></div>
+                        <div class="notificationMakerImage"><img src="/statics/profileIcons/{{nt.byWho}}.jpg" alt=""></div>
                         <div class="notificationMakerTextInfo"><span class="notificationMakerName">{{nt.senderName}}</span><span class="notificationMakingTime">{{nt.time}}</span></div>
 
                         <div class="notificationContent">{{nt.message}}</div>

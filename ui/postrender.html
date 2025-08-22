@@ -2,7 +2,7 @@
 {%for post in posts%}
 <div class="posts">
     <div class="creatorInfo">
-        <img onclick="gotoPage('/profile?userid={{post.userId}}')" src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/profileIcons/{{post.userId}}.jpg" alt="">
+        <img onclick="gotoPage('/profile?userid={{post.userId}}')" src="/statics/profileIcons/{{post.userId}}.jpg" alt="">
         <div class="creatorTextInfo">
             <span class="postCreatorNameinPost">{{post.username}}</span><br>
             <span class="creationTimeofThepost">{{post.timePassed}}</span>
@@ -12,7 +12,7 @@
         <span>{{post.text}}</span>
     </div>
     {%if post.hasImage == "1" %}
-    <div class="imageFrame"><img src="https://pub-6f9406fdeb2544f7acb2423deb3f6e1b.r2.dev/postImage/{{post.postId}}.jpg" alt=""></div>
+    <div class="imageFrame"><img src="/statics/postImage/{{post.postId}}.jpg" alt=""></div>
     {%endif%}
     <div class="postItarection">
         <div class="postInarectionItem"><img onclick="gotoPage('/post/{{post.postId}}')" src="https://protagonist-b3c.pages.dev/comments.png" alt=""><span>{{post.numOfPost}}</span></div>
