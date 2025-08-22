@@ -6,3 +6,4 @@ botocore
 groq
 psycopg2-binary
 dotenv
+gunicorn

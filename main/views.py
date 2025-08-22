@@ -9,6 +9,7 @@ from django.utils.html import escape
 import random
 from .ai import groqai
 import threading
+from django.http import FileResponse
 
 def addNotification(byWho,toWho,message,redirecto):
     timeNow = str(time.time())
@@ -359,4 +360,7 @@ def renderComments(req):
 
 
 def serveStatic(req,fileName):
-    pass
+    try:
+        return FileResponse(open("./static/"+fileName, 'rb'))
+    except:
+        return FileResponse(open("./static/fakeprofile.png", "rb"))

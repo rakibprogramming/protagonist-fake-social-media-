@@ -11,3 +11,4 @@ static/profileIcons/*
 static/tmp/*
 !static/tmp/.gitkeep
 .env
+db.sqlite3

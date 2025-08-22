@@ -16,5 +16,6 @@ urlpatterns = [
     path("createaiuser/<int:ammount>",views.createAiUSer),
     path("addaicomment",views.addAIComment),
     path("rendercomment",views.renderComments),
+    path("statics/<path:fileName>",views.serveStatic)
 ]
  
