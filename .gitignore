@@ -1,8 +1,13 @@
 static/profileIcons/*
 static/postImage/*
+!static/postImage/.gitkeep
 __pycache__/*
 env
 env/*
+main/migrations/__pycache__/*
+protagonist/__pycache__/*
 static/profileIcons/*
+!static/profileIcons/.gitkeep
 static/tmp/*
+!static/tmp/.gitkeep
 .env
